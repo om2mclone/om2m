@@ -26,4 +26,4 @@ Configure and Start the GSCL:
 * The GSCL can be configured and started with the same steps used for the NSCL.
 * Open your browser, then enter the address "http://127.0.0.1:8181" to access the GSCL web interface.
 
-For more details, see http://wiki.eclipse.org/OM2M
+For more details, see http://wiki.eclipse.org/om2m

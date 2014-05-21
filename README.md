@@ -18,7 +18,7 @@ Configure and Start the NSCL:
 * Go to the NSCL product directory.
 * You can edit the file "configuration/config.ini" to configure the NSCL
 * You can start the NSCL using the following command:
-> java -jar -ea -Declipse.ignoreApp=true -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true plugins/org.eclipse.equinox.launcher_1.3.0.v20140224-1459.jar -console -noExit 
+> java -jar -ea -Declipse.ignoreApp=true plugins/org.eclipse.equinox.launcher_*.jar -console -noExit 
 * Open your browser, then enter the address "http://127.0.0.1:8080" to access the NSCL web interface.
 
 Configure and Start the GSCL:

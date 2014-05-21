@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.eclipse.om2m Core Plugin
+Bundle-SymbolicName: org.eclipse.om2m.core;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.om2m.core.Activator
+Require-Bundle: org.apache.commons.codec,
+ org.eclipse.osgi,
+ org.eclipse.om2m.commons,
+ org.apache.commons.logging,
+ org.eclipse.om2m.comm.service,
+ org.eclipse.om2m.ipu.service,
+ org.eclipse.om2m.core.service
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ClassPath: .,
+ libs/db4o-core-java5-8.1-SNAPSHOT.jar
+Export-Package: org.eclipse.om2m.core.router

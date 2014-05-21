@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.eclipse.om2m.feature"
+      label="org.eclipse.om2m Feature"
+      version="1.0.0.qualifier"
+      os="linux,win32">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.apache.commons.logging" version="1.1.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.apache.commons.codec"/>
+      <import plugin="javax.servlet" version="3.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi.services"/>
+      <import plugin="org.apache.commons.httpclient"/>
+      <import plugin="org.eclipse.om2m.comm.service"/>
+      <import plugin="org.eclipse.om2m.core.service"/>
+      <import plugin="org.apache.commons.codec" version="1.4.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.osgi" version="3.9.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.om2m.commons" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.om2m.ipu.service"/>
+   </requires>
+
+   <plugin
+         id="org.eclipse.om2m.comm.http"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.om2m.commons"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.om2m.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.om2m.ipu.phidgets"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.om2m.service"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.om2m.webapp.resourcesbrowser"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: org.eclipse.om2m Test Fragment
+Bundle-SymbolicName: org.eclipse.om2m.test
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: org.eclipse.om2m.core;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5,
+ JavaSE-1.6
+Require-Bundle: org.eclipse.jdt.junit4.runtime,
+ org.junit

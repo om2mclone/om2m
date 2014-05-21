@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sample
+Bundle-SymbolicName: org.eclipse.om2m.ipu.sample
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.eclipse.om2m.ipu.sample.Activator
+Require-Bundle: org.eclipse.om2m.core.service,
+ org.eclipse.om2m.commons,
+ org.eclipse.osgi,
+ org.apache.commons.logging,
+ org.eclipse.om2m.ipu.service
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product uid="gscl" useFeatures="false" includeLaunchers="false">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-console -noExit
+      </programArgs>
+      <vmArgs>-ea  -Declipse.ignoreApp=true -Dosgi.clean=true -Ddebug=true -Dosgi.console.enable.builtin=true
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher name="gscl">
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7</windows>
+   </vm>
+
+   <plugins>
+      <plugin id="javax.servlet"/>
+      <plugin id="org.apache.commons.codec"/>
+      <plugin id="org.apache.commons.httpclient"/>
+      <plugin id="org.apache.commons.logging"/>
+      <plugin id="org.apache.felix.gogo.command"/>
+      <plugin id="org.apache.felix.gogo.runtime"/>
+      <plugin id="org.apache.felix.gogo.shell"/>
+      <plugin id="org.eclipse.equinox.console"/>
+      <plugin id="org.eclipse.equinox.http.jetty"/>
+      <plugin id="org.eclipse.equinox.http.servlet"/>
+      <plugin id="org.eclipse.equinox.launcher"/>
+      <plugin id="org.eclipse.jetty.continuation"/>
+      <plugin id="org.eclipse.jetty.http"/>
+      <plugin id="org.eclipse.jetty.io"/>
+      <plugin id="org.eclipse.jetty.security"/>
+      <plugin id="org.eclipse.jetty.server"/>
+      <plugin id="org.eclipse.jetty.servlet"/>
+      <plugin id="org.eclipse.jetty.util"/>
+      <plugin id="org.eclipse.om2m.comm.http"/>
+      <plugin id="org.eclipse.om2m.comm.service"/>
+      <plugin id="org.eclipse.om2m.commons"/>
+      <plugin id="org.eclipse.om2m.core"/>
+      <plugin id="org.eclipse.om2m.core.service"/>
+      <plugin id="org.eclipse.om2m.ipu.phidgets"/>
+      <plugin id="org.eclipse.om2m.ipu.sample"/>
+      <plugin id="org.eclipse.om2m.ipu.service"/>
+      <plugin id="org.eclipse.om2m.webapp.resourcesbrowser"/>
+      <plugin id="org.eclipse.osgi"/>
+      <plugin id="org.eclipse.osgi.services"/>
+   </plugins>
+
+   <configurations>
+      <plugin id="org.apache.felix.gogo.command" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.felix.gogo.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.apache.felix.gogo.shell" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.console" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.jetty" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.om2m.comm.http" autoStart="true" startLevel="3" />
+      <plugin id="org.eclipse.om2m.core" autoStart="true" startLevel="1" />
+      <plugin id="org.eclipse.om2m.ipu.phidgets" autoStart="false" startLevel="4" />
+      <plugin id="org.eclipse.om2m.ipu.sample" autoStart="false" startLevel="4" />
+      <plugin id="org.eclipse.om2m.webapp.resourcesbrowser" autoStart="true" startLevel="3" />
+      <property name="org.eclipse.equinox.http.jetty.http.port" value="8181" />
+      <property name="org.eclipse.om2m.adminRequestingEntity" value="admin/admin" />
+      <property name="org.eclipse.om2m.dbFile" value="gscl.db4o" />
+      <property name="org.eclipse.om2m.guestRequestingEntity" value="guest/guest" />
+      <property name="org.eclipse.om2m.maxNrOfInstances" value="10" />
+      <property name="org.eclipse.om2m.remoteNsclAddress" value="127.0.0.1" />
+      <property name="org.eclipse.om2m.remoteNsclId" value="nscl" />
+      <property name="org.eclipse.om2m.remoteNsclPort" value="8080" />
+      <property name="org.eclipse.om2m.reset" value="true" />
+      <property name="org.eclipse.om2m.sclBaseAddress" value="127.0.0.1" />
+      <property name="org.eclipse.om2m.sclBaseContext" value="/om2m" />
+      <property name="org.eclipse.om2m.sclBaseId" value="gscl" />
+      <property name="org.eclipse.om2m.sclBaseProtocol.default" value="http" />
+      <property name="org.eclipse.om2m.sclType" value="GSCL" />
+   </configurations>
+
+</product>

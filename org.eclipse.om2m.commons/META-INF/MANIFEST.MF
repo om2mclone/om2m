@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Commons
+Bundle-SymbolicName: org.eclipse.om2m.commons
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.apache.commons.logging,
+ org.eclipse.osgi
+Export-Package: obix,
+ obix.io,
+ org.eclipse.om2m.commons.resource,
+ org.eclipse.om2m.commons.rest,
+ org.eclipse.om2m.commons.utils
+Bundle-ClassPath: .,
+ libs/obix.jar

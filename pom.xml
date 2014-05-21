@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2013-2014 LAAS-CNRS (www.laas.fr) 7 Colonel Roche 31077 Toulouse - France
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+  http://www.eclipse.org/legal/epl-v10.html
+
+  Contributors:
+      Thierry Monteil (Project co-founder) - Management and initial specification, conception and documentation.
+      Mahdi Ben Alaya (Project co-founder) - Management and initial specification, conception, implementation, test and documentation.
+      Christophe Chassot - Management and initial specification.
+      Khalil Drira - Management and initial specification.
+      Yassine Banouar - Initial specification, conception, implementation, test and documentation.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.eclipse.om2m</groupId>
+  <artifactId>org.eclipse.om2m</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>org.eclipse.om2m :: parent</name>
+  <description>org.eclipse.om2m parent</description>
+
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+
+  <properties>
+    <java.version>1.7</java.version>
+    <maven.version>3.0</maven.version>
+    <tycho.version>0.20.0</tycho.version>
+    <tycho.test.jvmArgs>-Xmx512m -XX:MaxPermSize=256m</tycho.test.jvmArgs>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>luna</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/releases/luna</url>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <resolver>p2</resolver>
+          <pomDependencies>consider</pomDependencies>
+          <ignoreTychoRepositories>true</ignoreTychoRepositories>
+
+          <environments>
+           <!-- <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+             <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+             <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment> -->
+
+          </environments>
+
+        </configuration>
+      </plugin>
+
+
+
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-packaging-plugin</artifactId>
+        <version>${tycho.version}</version>
+        <configuration>
+          <format>yyyyMMdd-HHmm</format>
+
+          <archiveSite>true</archiveSite>
+          <environments>
+
+           <!-- <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86_64</arch>
+            </environment>
+               <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+             <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>-->
+          </environments>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+    <pluginManagement>
+
+      <plugins>
+
+        <plugin>
+          <groupId>org.eclipse.tycho</groupId>
+          <artifactId>tycho-surefire-plugin</artifactId>
+          <version>${tycho.version}</version>
+          <configuration>
+            <useUIHarness>true</useUIHarness>
+            <includes>
+              <include>**/*Test.java</include>
+            </includes>
+            <argLine>${tycho.test.jvmArgs}</argLine>
+            <!-- kill test JVM if tests take more than 1 minute (60 seconds) to
+              finish -->
+            <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>
+          </configuration>
+        </plugin>
+
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.3</version>
+        </plugin>
+
+
+
+        <!-- Ignore/Execute plugin execution -->
+         <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                copy-dependency plugin
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <versionRange>[1.0.0,)</versionRange>
+                    <goals>
+                      <goal>copy-dependencies</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <execute />
+                  </action>
+                </pluginExecution>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>
+                      jacoco-maven-plugin
+                    </artifactId>
+                    <versionRange>
+                      [0.5.3.201107060350,)
+                    </versionRange>
+                    <goals>
+                      <goal>prepare-agent</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore></ignore>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+
+      </plugins>
+  </pluginManagement>
+  </build>
+
+  <modules>
+    <module>org.eclipse.om2m.core</module>
+    <module>org.eclipse.om2m.core.service</module>
+    <module>org.eclipse.om2m.commons</module>
+    <module>org.eclipse.om2m.comm.http</module>
+    <module>org.eclipse.om2m.comm.service</module>
+    <module>org.eclipse.om2m.ipu.sample</module>
+	<module>org.eclipse.om2m.ipu.service</module>
+    <module>org.eclipse.om2m.webapp.resourcesbrowser</module>
+    <module>org.eclipse.om2m.site.nscl</module>
+    <module>org.eclipse.om2m.site.gscl</module>
+  </modules>
+
+</project>

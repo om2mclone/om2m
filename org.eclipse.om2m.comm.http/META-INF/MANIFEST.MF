@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: http
+Bundle-SymbolicName: org.eclipse.om2m.comm.http
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.apache.commons.logging,
+ org.eclipse.osgi,
+ org.apache.commons.codec,
+ javax.servlet,
+ org.eclipse.om2m.commons,
+ org.eclipse.osgi.services,
+ org.apache.commons.httpclient,
+ org.eclipse.om2m.comm.service,
+ org.eclipse.om2m.core.service
+Bundle-Activator: org.eclipse.om2m.comm.http.Activator
+Bundle-ClassPath: .

@@ -52,7 +52,6 @@
       <plugin id="org.eclipse.om2m.commons"/>
       <plugin id="org.eclipse.om2m.core"/>
       <plugin id="org.eclipse.om2m.core.service"/>
-      <plugin id="org.eclipse.om2m.ipu.phidgets"/>
       <plugin id="org.eclipse.om2m.ipu.sample"/>
       <plugin id="org.eclipse.om2m.ipu.service"/>
       <plugin id="org.eclipse.om2m.webapp.resourcesbrowser"/>
@@ -68,7 +67,6 @@
       <plugin id="org.eclipse.equinox.http.jetty" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.om2m.comm.http" autoStart="true" startLevel="3" />
       <plugin id="org.eclipse.om2m.core" autoStart="true" startLevel="1" />
-      <plugin id="org.eclipse.om2m.ipu.phidgets" autoStart="false" startLevel="4" />
       <plugin id="org.eclipse.om2m.ipu.sample" autoStart="false" startLevel="4" />
       <plugin id="org.eclipse.om2m.webapp.resourcesbrowser" autoStart="true" startLevel="3" />
       <property name="org.eclipse.equinox.http.jetty.http.port" value="8181" />

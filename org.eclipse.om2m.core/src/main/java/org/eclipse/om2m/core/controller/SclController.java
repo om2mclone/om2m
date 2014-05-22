@@ -113,7 +113,7 @@ public class SclController extends Controller {
         if (DAOFactory.getSclDAO().find(requestIndication.getTargetID()+"/"+scl.getSclId()) != null) {
             // Register NSCL to G/Dscl
             if ("NSCL".equalsIgnoreCase(Constants.SCL_TYPE)) {
-                LOGGER.info("Register GSCL to NSCL");
+                LOGGER.info("Register NSCL to GSCL");
 
                 final String sclLink = scl.getLink();
                 final String sclPoc = scl.getPocs().getReference().get(0);

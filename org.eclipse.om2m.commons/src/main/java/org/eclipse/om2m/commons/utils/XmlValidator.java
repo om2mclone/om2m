@@ -52,6 +52,8 @@ public class XmlValidator {
     private SAXParserFactory factory;
     /** Contains required XSD shemas to validate resource XML representation*/
     private Map<String, Schema> schemas;
+    /** path to xsd files directory*/
+    private String xsdPath="xsd";
 
     /** Gets XmlValidator instance */
     public static XmlValidator getInstance(){
@@ -68,25 +70,25 @@ public class XmlValidator {
 
         // Create all required schemas based on xsd files when starting and add them to the schemas map to enhance response time performance.
         try {
-            schemas.put("sclBase.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/sclBase.xsd")));
-            schemas.put("accessRights.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/accessRights.xsd")));
-            schemas.put("accessRight.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/accessRight.xsd")));
-            schemas.put("accessRightAnnc.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/accessRightAnnc.xsd")));
-            schemas.put("scls.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/scls.xsd")));
-            schemas.put("scl.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/scl.xsd")));
-            schemas.put("applications.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/applications.xsd")));
-            schemas.put("application.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/application.xsd")));
-            schemas.put("applicationAnnc.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/applicationAnnc.xsd")));
-            schemas.put("containers.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/containers.xsd")));
-            schemas.put("container.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/container.xsd")));
-            schemas.put("containerAnnc.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/containerAnnc.xsd")));
-            schemas.put("contentInstance.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/contentInstance.xsd")));
-            schemas.put("subscription.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/subscription.xsd")));
-            schemas.put("groups.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/groups.xsd")));
-            schemas.put("group.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/group.xsd")));
-            schemas.put("groupAnnc.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/groupAnnc.xsd")));
-            schemas.put("attachedDevices.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/attachedDevices.xsd")));
-            schemas.put("mgmtObjs.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource("xsdFile/mgmtObjs.xsd")));
+            schemas.put("sclBase.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/sclBase.xsd")));
+            schemas.put("accessRights.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/accessRights.xsd")));
+            schemas.put("accessRight.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/accessRight.xsd")));
+            schemas.put("accessRightAnnc.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/accessRightAnnc.xsd")));
+            schemas.put("scls.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/scls.xsd")));
+            schemas.put("scl.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/scl.xsd")));
+            schemas.put("applications.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/applications.xsd")));
+            schemas.put("application.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/application.xsd")));
+            schemas.put("applicationAnnc.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/applicationAnnc.xsd")));
+            schemas.put("containers.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/containers.xsd")));
+            schemas.put("container.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/container.xsd")));
+            schemas.put("containerAnnc.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/containerAnnc.xsd")));
+            schemas.put("contentInstance.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/contentInstance.xsd")));
+            schemas.put("subscription.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/subscription.xsd")));
+            schemas.put("groups.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/groups.xsd")));
+            schemas.put("group.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/group.xsd")));
+            schemas.put("groupAnnc.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/groupAnnc.xsd")));
+            schemas.put("attachedDevices.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/attachedDevices.xsd")));
+            schemas.put("mgmtObjs.xsd", schemaFactory.newSchema(FrameworkUtil.getBundle(XmlValidator.class).getResource(xsdPath+"/mgmtObjs.xsd")));
         } catch (SAXException e) {
             LOGGER.error("Error reading XSD shemas", e);
         }

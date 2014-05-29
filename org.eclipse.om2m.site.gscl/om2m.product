@@ -73,7 +73,7 @@
       <property name="org.eclipse.om2m.adminRequestingEntity" value="admin/admin" />
       <property name="org.eclipse.om2m.dbFile" value="gscl.db4o" />
       <property name="org.eclipse.om2m.guestRequestingEntity" value="guest/guest" />
-      <property name="org.eclipse.om2m.maxNrOfInstances" value="10" />
+      <property name="org.eclipse.om2m.maxNrOfInstances" value="100" />
       <property name="org.eclipse.om2m.remoteNsclAddress" value="127.0.0.1" />
       <property name="org.eclipse.om2m.remoteNsclId" value="nscl" />
       <property name="org.eclipse.om2m.remoteNsclPort" value="8080" />

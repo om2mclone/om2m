@@ -69,7 +69,7 @@
       <plugin id="org.eclipse.om2m.core" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.om2m.ipu.sample" autoStart="false" startLevel="4" />
       <plugin id="org.eclipse.om2m.webapp.resourcesbrowser" autoStart="true" startLevel="3" />
-      <property name="org.eclipse.equinox.http.jetty.http.port" value="8282" />
+      <property name="org.eclipse.equinox.http.jetty.http.port" value="8181" />
       <property name="org.eclipse.om2m.adminRequestingEntity" value="admin/admin" />
       <property name="org.eclipse.om2m.dbFile" value="gscl.db4o" />
       <property name="org.eclipse.om2m.guestRequestingEntity" value="guest/guest" />

@@ -36,6 +36,7 @@ import org.eclipse.om2m.core.comm.RestClient;
 import org.eclipse.om2m.core.constants.Constants;
 import org.eclipse.om2m.core.dao.DAOFactory;
 import org.eclipse.om2m.core.redirector.Redirector;
+import org.eclipse.om2m.core.router.Router;
 
 /**
  * Notifies subscribers when a change occurs on a resource according to their subscriptions.
@@ -75,7 +76,6 @@ public class Notifier {
                 notify = new Notify();
                 subscription = new Subscription();
                 subscription =  subscriptionList.get(i);
-
                 notify.setStatusCode(statusCode);
                 notify.getRepresentation().setContentType("application/xml");
 
@@ -96,19 +96,21 @@ public class Notifier {
                     notify.getRepresentation().setValue(resource);
                 }
                 notify.setSubscriptionReference(subscription.getUri());
+                
+                final String contact =  subscription.getContact();
 
                 // Create a RequestIndication with the notify as representation
                 final RequestIndication requestIndication = new RequestIndication();
                 requestIndication.setMethod(Constants.METHOD_CREATE);
                 requestIndication.setRequestingEntity(Constants.ADMIN_REQUESTING_ENTITY);
                 requestIndication.setRepresentation(notify);
-                requestIndication.setTargetID(subscription.getContact());
+                
 
                 // Send notification on a new Thread
                 new Thread() {
                     public void run() {
                         LOGGER.info("Notification Request:\n"+requestIndication);
-                        ResponseConfirm responseConfirm = Notifier.notify(requestIndication);
+                        ResponseConfirm responseConfirm = Notifier.notify(requestIndication,contact);
                         LOGGER.info("Notification Response:\n"+responseConfirm);
                     }
                 }.start();
@@ -116,20 +118,22 @@ public class Notifier {
         }
     }
 
-    public static ResponseConfirm notify(RequestIndication requestIndication){
-        if(requestIndication.getTargetID().matches(".*://.*")){
-            requestIndication.setBase(requestIndication.getTargetID());
-            requestIndication.setTargetID(null);
+    public static ResponseConfirm notify(RequestIndication requestIndication, String contact){
+    	// Check whether the subscription contact is protocol-dependent or not.
+    	if(contact.matches(".*://.*")){ 
+    		// Contact = protocol-dependent -> direct notification using the rest client.
+        	requestIndication.setBase(contact);
+        	requestIndication.setTargetID("");
             return new RestClient().sendRequest(requestIndication);
         }else{
-            String sclId = requestIndication.getTargetID().split("/")[0];
+    		// Contact = protocol-independent -> Check whether the targeted SCL is local or remote.
+            String sclId = contact.split("/")[0];
+    		requestIndication.setTargetID(contact);
             if(Constants.SCL_ID.equals(sclId)){
-                    String appId = requestIndication.getTargetID().split("applications/")[1];
-                    Application application = DAOFactory.getApplicationDAO().find(Constants.SCL_ID+"/applications/"+appId);
-                    requestIndication.setBase(application.getAPoC());
-                    requestIndication.setTargetID(null);
-                    return new RestClient().sendRequest(requestIndication);
+        		// scl = local -> perform request on the local scl.
+            	return new Router().doRequest(requestIndication);
             }else{
+            	// scl = remote -> retarget request to the remote scl.
                 return new Redirector().retarget(requestIndication);
             }
         }

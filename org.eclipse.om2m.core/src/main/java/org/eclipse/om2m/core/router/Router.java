@@ -260,10 +260,6 @@ public class Router implements SclService {
         if(match(retargetingPattern,requestIndication.getTargetID())){
             return new Redirector().retarget(requestIndication);
         }
-        // Notification case
-        if(match(applicationPattern,requestIndication.getTargetID()) && requestIndication.getMethod().equals(Constants.METHOD_CREATE)){
-            return new Notifier().notify(requestIndication);
-        }
         // Controller case
         // Determine the appropriate resource controller
         Controller controller = getResourceController(requestIndication.getTargetID(),requestIndication.getMethod(),requestIndication.getRepresentation());

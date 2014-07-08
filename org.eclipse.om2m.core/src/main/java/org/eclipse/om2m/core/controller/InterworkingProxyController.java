@@ -85,10 +85,10 @@ public class InterworkingProxyController extends Controller {
 
         try{
             // Forward the request
-            if (ipUnits.containsKey(aPoCPath)) {
-                return ipUnits.get(aPoCPath).doCreate(requestIndication);
+            if (ipUnits.containsKey(aPoCPath.getPath())) {
+                return ipUnits.get(aPoCPath.getPath()).doCreate(requestIndication);
             }else {
-                return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,"No IPU found for path "+aPoCPath)) ;
+                return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,"No IPU found for path "+aPoCPath.getPath())) ;
             }
         }catch (Exception e) {
             LOGGER.error("IPU Internal Exception", e);

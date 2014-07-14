@@ -56,7 +56,7 @@ public class Constants {
     /** SclBase listening port. */
     public static final int SCL_PORT = Integer.parseInt(System.getProperty("org.eclipse.equinox.http.jetty.http.port","8080"));
     /** listening context. */
-    public static final String CONTEXT = System.getProperty("org.eclipse.om2m.context","/om2m");
+    public static final String SCL_CONTEXT = System.getProperty("org.eclipse.om2m.sclBaseContext","/om2m");
 
     //The following properties are required only for GSCL to perform authentication on a remote NSCL
     /** Remote Nscl Id. (Required only for GSCL)*/
@@ -65,6 +65,8 @@ public class Constants {
     public static final String NSCL_IP = System.getProperty("org.eclipse.om2m.remoteNsclAddress","127.0.0.1");
     /** Remote Nscl listening port. (Required only for GSCL)*/
     public static final int NSCL_PORT = Integer.parseInt(System.getProperty("org.eclipse.om2m.remoteNsclPort","8080"));
+    /** Remote Nscl listening context. */
+    public static final String NSCL_CONTEXT = System.getProperty("org.eclipse.om2m.remoteNsclContext","/om2m");
 
     // Data Base connection type property
     /** Select between embedded org remote data base.*/

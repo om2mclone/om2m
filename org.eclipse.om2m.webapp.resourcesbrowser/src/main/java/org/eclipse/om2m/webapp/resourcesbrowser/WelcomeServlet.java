@@ -38,6 +38,6 @@ public class WelcomeServlet extends HttpServlet {
       @Override
       protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
           //httpServletRequest.getRequestDispatcher("/webapps/index.html").forward (httpServletRequest, httpServletResponse);
-          httpServletResponse.sendRedirect("/welcome/index.html?context="+System.getProperty("org.eclipse.om2m.context", "/om2m")+"&"+"sclId="+System.getProperty("org.eclipse.om2m.sclBaseId", "nscl"));
+          httpServletResponse.sendRedirect("/welcome/index.html?context="+System.getProperty("org.eclipse.om2m.sclBaseContext", "/om2m")+"&"+"sclId="+System.getProperty("org.eclipse.om2m.sclBaseId", "nscl"));
       }
 }

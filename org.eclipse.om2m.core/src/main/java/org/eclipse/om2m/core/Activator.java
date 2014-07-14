@@ -209,11 +209,11 @@ public class Activator implements BundleActivator {
             Scl gscl = new Scl();
             gscl.setSclId(Constants.SCL_ID);
             AnyURIList pocs = new AnyURIList();
-            pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.SCL_IP+":"+Constants.SCL_PORT+Constants.CONTEXT);
+            pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.SCL_IP+":"+Constants.SCL_PORT+Constants.SCL_CONTEXT);
             gscl.setPocs(pocs);
             gscl.setLink(Constants.SCL_ID);
             gscl.setMgmtProtocolType(MgmtProtocolType.OMA_DM);
-            String base = "http://"+Constants.NSCL_IP+":"+ Constants.NSCL_PORT+Constants.CONTEXT+"/";
+            String base = "http://"+Constants.NSCL_IP+":"+ Constants.NSCL_PORT+Constants.NSCL_CONTEXT+"/";
 
             // Create RequestIndication
             final RequestIndication requestIndication = new RequestIndication();
@@ -270,7 +270,7 @@ public class Activator implements BundleActivator {
                     searchStrings.getSearchString().add(Constants.SEARCH_STRING_RES_ID+Constants.NSCL_ID);
                     nscl.setSearchStrings(searchStrings);
                     AnyURIList pocs = new AnyURIList();
-                    pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.NSCL_IP+":"+Constants.NSCL_PORT+Constants.CONTEXT);
+                    pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.NSCL_IP+":"+Constants.NSCL_PORT+Constants.NSCL_CONTEXT);
                     nscl.setPocs(pocs);
                     nscl.setLink(Constants.NSCL_ID);
                     nscl.setMgmtProtocolType(MgmtProtocolType.OMA_DM);

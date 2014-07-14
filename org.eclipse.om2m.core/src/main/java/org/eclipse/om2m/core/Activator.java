@@ -205,7 +205,7 @@ public class Activator implements BundleActivator {
          * Sends {@link SclBase} resource in DataBase.
          */
         public static void registerScl(){
-            //Create an Scl resource
+            //Create an GSCL Scl resource
             Scl gscl = new Scl();
             gscl.setSclId(Constants.SCL_ID);
             AnyURIList pocs = new AnyURIList();
@@ -241,7 +241,7 @@ public class Activator implements BundleActivator {
                         responseConfirm = new RestClient().sendRequest(requestIndication);
                         //Stop registration if success of GSCL already registered
                         if(responseConfirm.getStatusCode().equals(StatusCode.STATUS_CREATED)){
-                            LOGGER.info("GSCL successfully registered to NSCL");
+                            LOGGER.info("GSCL is successfully registered to NSCL");
                             registred=true;
                         }else if(responseConfirm.getStatusCode().equals(StatusCode.STATUS_CONFLICT)){
                             LOGGER.info("GSCL is already registered to NSCL");
@@ -257,6 +257,25 @@ public class Activator implements BundleActivator {
                             }
                         }
                     }
+                  //Create an NSCL Scl resource
+                    LOGGER.info("Create NSCL registration on GSCL");
+                    Scl nscl = new Scl();
+                    nscl.setUri(Constants.SCL_ID+""+"/scls/"+Constants.NSCL_ID);
+                    nscl.setSclId(Constants.NSCL_ID);
+                    nscl.setAccessRightID(Constants.SCL_ID+"/accessRights/"+Constants.ADMIN_PROFILE_ID);
+                    nscl.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
+                    nscl.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+                    SearchStrings searchStrings = new SearchStrings();
+                    searchStrings.getSearchString().add(Constants.SEARCH_STRING_RES_TYPE+nscl.getClass().getSimpleName());
+                    searchStrings.getSearchString().add(Constants.SEARCH_STRING_RES_ID+Constants.NSCL_ID);
+                    nscl.setSearchStrings(searchStrings);
+                    AnyURIList pocs = new AnyURIList();
+                    pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.NSCL_IP+":"+Constants.NSCL_PORT+Constants.CONTEXT);
+                    nscl.setPocs(pocs);
+                    nscl.setLink(Constants.NSCL_ID);
+                    nscl.setMgmtProtocolType(MgmtProtocolType.OMA_DM);
+                    DAOFactory.getSclDAO().create(nscl);
+                    LOGGER.info("NSCL is successfully registred on GSCL");
                 }
             }.start();
         }

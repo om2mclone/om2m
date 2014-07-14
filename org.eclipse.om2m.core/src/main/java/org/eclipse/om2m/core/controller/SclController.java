@@ -111,24 +111,6 @@ public class SclController extends Controller {
         }
         // Check the Id uniqueness
         if (DAOFactory.getSclDAO().find(requestIndication.getTargetID()+"/"+scl.getSclId()) != null) {
-            // Register NSCL to G/Dscl
-            if ("NSCL".equalsIgnoreCase(Constants.SCL_TYPE)) {
-                LOGGER.info("Register NSCL to GSCL");
-
-                final String sclLink = scl.getLink();
-                final String sclPoc = scl.getPocs().getReference().get(0);
-                new Thread() {
-                    public void run() {
-                        ResponseConfirm responseConfirm = register(sclLink,sclPoc);
-                        if (responseConfirm.getStatusCode().equals(StatusCode.STATUS_CREATED)) {
-                            LOGGER.info("NSCL successfully registered to GSCL");
-                        }
-                        if (responseConfirm.getStatusCode().equals(StatusCode.STATUS_CONFLICT)) {
-                            LOGGER.info("NSCL is already registered to GSCL");
-                        }
-                    }
-                }.start();
-            }
             return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_CONFLICT,"SclId Conflit")) ;
         }
         // Check ExpirationTime
@@ -241,25 +223,6 @@ public class SclController extends Controller {
         // Store scl
         DAOFactory.getSclDAO().create(scl);
 
-        // Register NSCL to G/Dscl
-        if ("NSCL".equalsIgnoreCase(Constants.SCL_TYPE)) {
-            LOGGER.info("Register NSCL to GSCL");
-
-            final String sclLink = scl.getLink();
-            final String sclPoc = scl.getPocs().getReference().get(0);
-            new Thread() {
-                public void run() {
-                    ResponseConfirm responseConfirm = register(sclLink,sclPoc);
-                    if (responseConfirm.getStatusCode().equals(StatusCode.STATUS_CREATED)) {
-                        LOGGER.info("NSCL successfully registered to GSCL");
-                    }
-                    if (responseConfirm.getStatusCode().equals(StatusCode.STATUS_CONFLICT)) {
-                        LOGGER.info("NSCL is already registered to GSCL");
-                    }
-                }
-            }.start();
-
-        }
         // Response
         return new ResponseConfirm(StatusCode.STATUS_CREATED, scl);
     }
@@ -531,39 +494,5 @@ public class SclController extends Controller {
         // Response
         return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_IMPLEMENTED,requestIndication.getMethod()+" Method is not implemented")) ;
     }
-
-    /**
-     * NSCL registration
-     * @param sclLink
-     * @param sclPoc
-     * @return The generic returned response.
-     */
-    public static ResponseConfirm register(String sclLink, String sclPoc) {
-
-        Scl nscl = new Scl();
-        nscl.setSclId(Constants.SCL_ID);
-        AnyURIList pocs = new AnyURIList();
-        pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.SCL_IP+":"+Constants.SCL_PORT+Constants.CONTEXT);
-        nscl.setPocs(pocs);
-        nscl.setLink(Constants.SCL_ID);
-        nscl.setMgmtProtocolType(MgmtProtocolType.OMA_DM);
-        // Construct the XMLString from the Object
-        String nsclRep = XmlMapper.getInstance().objectToXml(nscl);
-        // targetID (e.g. om2mGscl/scls)
-        String targetID = new String(sclLink+"/scls");
-        String base = sclPoc+"/";
-
-        RequestIndication requestIndication= new RequestIndication();
-        requestIndication.setBase(base);
-        requestIndication.setTargetID(targetID);
-        requestIndication.setMethod(Constants.AR_CREATE);
-        requestIndication.setRequestingEntity(Constants.ADMIN_REQUESTING_ENTITY);
-        requestIndication.setRepresentation(nsclRep);
-        requestIndication.setProtocol("http");
-        LOGGER.info("Sending GSCL registration to NSCL");
-        // Response
-        return new RestClient().sendRequest(requestIndication);
-    }
-
 
 }

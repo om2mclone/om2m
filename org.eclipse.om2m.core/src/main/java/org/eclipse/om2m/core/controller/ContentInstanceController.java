@@ -138,7 +138,7 @@ public class ContentInstanceController extends Controller {
         //Store contentInstance
         DAOFactory.getContentInstanceDAO().create(contentInstance);
      // delete the oldest contentInstance if the CurrentNrOfInstances reaches MaxNrOfInstances
-        if (contentInstances.getCurrentNrOfInstances() > container.getMaxNrOfInstances()) {
+        if (contentInstances.getCurrentNrOfInstances() > container.getMaxNrOfInstances()-1) {
             final String oldestCI = requestIndication.getTargetID()+"/oldest";
             new Thread(){
                 public void run(){

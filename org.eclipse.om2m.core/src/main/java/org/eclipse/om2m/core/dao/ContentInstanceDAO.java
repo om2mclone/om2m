@@ -44,21 +44,28 @@ public class ContentInstanceDAO extends DAO<ContentInstance> {
      * @param resource - The {@link ContentInstance} resource to create
      */
     public void create(ContentInstance resource) {
-        // Store the created resource
+    	 // Store the created resource
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
-        ContentInstances contentInstances = DAOFactory.getContentInstancesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        Query query = DB.query();
+        query.constrain(ContentInstances.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<ContentInstances> result = query.execute();
+        // Retrieve the first element corresponding to the researched resource if result is not empty
 
-        contentInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
-        // Add ContentSize to currentSize of the ContentInstances
-        contentInstances.setCurrentByteSize(contentInstances.getCurrentByteSize()+resource.getContentSize());
-        // Increment the currentInstances
-        contentInstances.setCurrentNrOfInstances(contentInstances.getCurrentNrOfInstances()+1);
-        // Update
-        DB.store(contentInstances);
-        // Validate the current transaction
-        commit();
+            ContentInstances contentInstances = result.get(0);
 
+            contentInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+            // Add ContentSize to currentSize of the ContentInstances
+            contentInstances.setCurrentByteSize(contentInstances.getCurrentByteSize()+resource.getContentSize());
+            // Increment the currentInstances
+            contentInstances.setCurrentNrOfInstances(contentInstances.getCurrentNrOfInstances()+1);
+            // Update
+            DB.store(contentInstances);
+
+            // Validate the current transaction
+            commit();      
     }
 
     /**
@@ -139,8 +146,14 @@ public class ContentInstanceDAO extends DAO<ContentInstance> {
      * @param resource - The {@link ContentInstance} resource to delete
      */
     public void lazyDelete(ContentInstance resource){
+    	// Update the lastModifiedTime attribute of the parent
+        Query query = DB.query();
+        query.constrain(ContentInstances.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<ContentInstances> result = query.execute();
         // Update Parent
-        ContentInstances contentInstances = DAOFactory.getContentInstancesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        ContentInstances contentInstances = result.get(0);
         // Update the lastModifiedTime attribute of the parent
         contentInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         //subtract ContentSize to currentSize of the ContentInstances

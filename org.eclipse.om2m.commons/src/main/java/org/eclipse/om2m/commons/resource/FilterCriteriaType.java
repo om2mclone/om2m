@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -52,10 +52,10 @@ public class FilterCriteriaType {
 
     @XmlElement(namespace = "")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar ifModifiedSince;
+    protected String ifModifiedSince;
     @XmlElement(namespace = "")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar ifUnmodifiedSince;
+    protected String ifUnmodifiedSince;
     @XmlElement(namespace = "")
     protected List<String> ifMatch;
     @XmlElement(namespace = "")
@@ -70,10 +70,10 @@ public class FilterCriteriaType {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getIfModifiedSince() {
+    public String getIfModifiedSince() {
         return ifModifiedSince;
     }
 
@@ -82,10 +82,10 @@ public class FilterCriteriaType {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setIfModifiedSince(XMLGregorianCalendar value) {
+    public void setIfModifiedSince(String value) {
         this.ifModifiedSince = value;
     }
 
@@ -94,10 +94,10 @@ public class FilterCriteriaType {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getIfUnmodifiedSince() {
+    public String getIfUnmodifiedSince() {
         return ifUnmodifiedSince;
     }
 
@@ -106,10 +106,10 @@ public class FilterCriteriaType {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setIfUnmodifiedSince(XMLGregorianCalendar value) {
+    public void setIfUnmodifiedSince(String value) {
         this.ifUnmodifiedSince = value;
     }
 

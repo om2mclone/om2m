@@ -21,7 +21,11 @@ package org.eclipse.om2m.core.controller;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
@@ -217,17 +221,38 @@ public abstract class Controller {
      * @param expirationTime - expiration time present in the request representation
      * @return false if the expirationTime attribute is out of date otherwise true
      */
-    public boolean checkExpirationTime(XMLGregorianCalendar expirationTime) {
-        Boolean isNotExpired;
-        XMLGregorianCalendar now = DateConverter.toXMLGregorianCalendar(new Date());
-
-        if (expirationTime != null && expirationTime.toGregorianCalendar().compareTo(now.toGregorianCalendar()) > 0) {
-            isNotExpired = true;
-            return isNotExpired;
-        } else {
-            isNotExpired = false;
-            return isNotExpired;
+    public boolean checkExpirationTime(String expirationTime) {
+        DateFormat df=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ");
+        Date expDate;
+        try {
+            expDate = df.parse(expirationTime);
+            if (expDate.compareTo(new Date()) > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            LOGGER.error("Invalid XMLGregorianCalendar Format", e);
+            return false;
         }
+
+
+
+//        GregorianCalendar cal = new GregorianCalendar();
+//        cal.setTime(exp);
+//        XMLGregorianCalendar xmlDate2 = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH), dob.getHours(),dob.getMinutes(),dob.getSeconds(),DatatypeConstants.FIELD_UNDEFINED, cal.getTimeZone().LONG).normalize();
+//        XMLGregorianCalendar xmlDate3 = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH),dob.getHours(),dob.getMinutes(),dob.getSeconds(),DatatypeConstants.FIELD_UNDEFINED, DatatypeConstants.FIELD_UNDEFINED);
+//        System.out.println(xmlDate2);
+//        System.out.println(xmlDate3);
+//
+//        XMLGregorianCalendar exp = expirationTime
+//        if (expirationTime != null && expirationTime.toGregorianCalendar().compareTo(now.toGregorianCalendar()) > 0) {
+//            isNotExpired = true;
+//            return isNotExpired;
+//        } else {
+//            isNotExpired = false;
+//            return isNotExpired;
+//        }
     }
 
     /**
@@ -235,10 +260,10 @@ public abstract class Controller {
      * @param addedSeconds - seconds to add to the current time
      * @return New expirationTime value of the resource
      */
-    public XMLGregorianCalendar getNewExpirationTime(long addedSeconds) {
+    public String getNewExpirationTime(long addedSeconds) {
         long addedMilSeconds = addedSeconds * 1000;
         Date newDate = new Date((new Date()).getTime() + addedMilSeconds);
-        return DateConverter.toXMLGregorianCalendar(newDate);
+        return DateConverter.toXMLGregorianCalendar(newDate).toString();
     }
 
     /**
@@ -246,10 +271,10 @@ public abstract class Controller {
      * @param addedSeconds - seconds to add to the current time
      * @return New delayTolerance of the resource
      */
-    public XMLGregorianCalendar getNewDelayTolerance(long addedSeconds) {
+    public String getNewDelayTolerance(long addedSeconds) {
         long addedMilSeconds = addedSeconds * 1000;
         Date newDate = new Date((new Date()).getTime() + addedMilSeconds);
-        return DateConverter.toXMLGregorianCalendar(newDate);
+        return DateConverter.toXMLGregorianCalendar(newDate).toString();
     }
 
     /**

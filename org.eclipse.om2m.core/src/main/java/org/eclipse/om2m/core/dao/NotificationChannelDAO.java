@@ -48,8 +48,8 @@ public class NotificationChannelDAO extends DAO<NotificationChannel> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         NotificationChannels notificationChannels =DAOFactory.getNotificationChannelsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        notificationChannels.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(notificationChannels.getLastModifiedTime());
+        notificationChannels.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(notificationChannels);
         // Validate the current transaction
         commit();
     }
@@ -92,8 +92,8 @@ public class NotificationChannelDAO extends DAO<NotificationChannel> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         NotificationChannels notificationChannelsFind =DAOFactory.getNotificationChannelsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        notificationChannelsFind.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(notificationChannelsFind.getLastModifiedTime());
+        notificationChannelsFind.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(notificationChannelsFind);
         // Validate the current transaction
         commit();
     }
@@ -118,7 +118,7 @@ public class NotificationChannelDAO extends DAO<NotificationChannel> {
         DB.delete(resource);
         // Update the lastModifiedTime attribute of the parent
         NotificationChannels notificationChannels =DAOFactory.getNotificationChannelsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        notificationChannels.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(notificationChannels.getLastModifiedTime());
+        notificationChannels.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(notificationChannels);
     }
 }

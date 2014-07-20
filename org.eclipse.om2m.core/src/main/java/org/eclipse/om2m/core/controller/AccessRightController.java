@@ -138,9 +138,9 @@ public class AccessRightController extends Controller {
         // Set References
         accessRight.setSubscriptionsReference(accessRight.getUri()+"/subscriptions");
         // Set CreationTime
-        accessRight.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        accessRight.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         // Set LastModifiedTime
-        accessRight.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        accessRight.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Announcement
         if (accessRight.getAnnounceTo().isActivated()) {
@@ -273,7 +273,7 @@ public class AccessRightController extends Controller {
         // Set selfPermissions
         accessRight.setSelfPermissions(accessRightNew.getSelfPermissions());
         // Set LastModifiedTime
-        accessRight.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        accessRight.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, accessRight);
 

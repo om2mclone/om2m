@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -75,11 +75,11 @@ public class Scl extends Resource {
     protected String link;
     protected Schedule schedule;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar expirationTime;
+    protected String expirationTime;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar creationTime;
+    protected String creationTime;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastModifiedTime;
+    protected String lastModifiedTime;
     @XmlSchemaType(name = "anySimpleType")
     protected Object locTargetDevice;
     protected MgmtProtocolType mgmtProtocolType;
@@ -257,10 +257,10 @@ public class Scl extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getExpirationTime() {
+    public String getExpirationTime() {
         return expirationTime;
     }
 
@@ -269,10 +269,10 @@ public class Scl extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setExpirationTime(XMLGregorianCalendar value) {
+    public void setExpirationTime(String value) {
         this.expirationTime = value;
     }
 
@@ -285,7 +285,7 @@ public class Scl extends Resource {
      *
      */
 
-    public XMLGregorianCalendar getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
@@ -294,11 +294,11 @@ public class Scl extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
 
-    public void setCreationTime(XMLGregorianCalendar value) {
+    public void setCreationTime(String value) {
         this.creationTime = value;
     }
 
@@ -307,11 +307,11 @@ public class Scl extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
 
-    public XMLGregorianCalendar getLastModifiedTime() {
+    public String getLastModifiedTime() {
         return lastModifiedTime;
     }
 
@@ -320,11 +320,11 @@ public class Scl extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
 
-    public void setLastModifiedTime(XMLGregorianCalendar value) {
+    public void setLastModifiedTime(String value) {
         this.lastModifiedTime = value;
     }
 

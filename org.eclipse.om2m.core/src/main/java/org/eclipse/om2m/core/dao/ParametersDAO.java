@@ -66,12 +66,12 @@ public class ParametersDAO extends DAO<Parameters> {
         if (!parameter[1].contains("/")){
             MgmtObj mgmtObj = DAOFactory.getMgmtObjDAO().find(target);
             mgmtObj.getParametersCollection().getNamedReference().add(reference);
-            mgmtObj.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+            mgmtObj.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
             DAOFactory.getMgmtObjDAO().update(mgmtObj);
         } else {
             Parameters parameters = DAOFactory.getParametersDAO().find(target);
             parameters.getParametersCollection().getNamedReference().add(reference);
-            parameters.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+            parameters.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
             DAOFactory.getParametersDAO().update(parameters);
         }
     }

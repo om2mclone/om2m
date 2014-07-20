@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -129,7 +129,7 @@ public class MembersContentResponses extends Resource{
         protected String statusCode;
         protected String eTag;
         @XmlSchemaType(name = "dateTime")
-        protected XMLGregorianCalendar lastModifiedTime;
+        protected String lastModifiedTime;
         protected Base64Binary resultBody;
         @XmlAttribute(name = "id")
         @XmlSchemaType(name = "anyURI")
@@ -188,10 +188,10 @@ public class MembersContentResponses extends Resource{
          *
          * @return
          *     possible object is
-         *     {@link XMLGregorianCalendar }
+         *     {@link String }
          *
          */
-        public XMLGregorianCalendar getLastModifiedTime() {
+        public String getLastModifiedTime() {
             return lastModifiedTime;
         }
 
@@ -200,10 +200,10 @@ public class MembersContentResponses extends Resource{
          *
          * @param value
          *     allowed object is
-         *     {@link XMLGregorianCalendar }
+         *     {@link String }
          *
          */
-        public void setLastModifiedTime(XMLGregorianCalendar value) {
+        public void setLastModifiedTime(String value) {
             this.lastModifiedTime = value;
         }
 

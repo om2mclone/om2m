@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -53,11 +53,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class MgmtCmd extends Resource {
 
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar expirationTime;
+    protected String expirationTime;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar creationTime;
+    protected String creationTime;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastModifiedTime;
+    protected String lastModifiedTime;
     protected String description;
     protected CmdType cmdType;
     @XmlSchemaType(name = "anyURI")
@@ -76,10 +76,10 @@ public class MgmtCmd extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getExpirationTime() {
+    public String getExpirationTime() {
         return expirationTime;
     }
 
@@ -88,10 +88,10 @@ public class MgmtCmd extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setExpirationTime(XMLGregorianCalendar value) {
+    public void setExpirationTime(String value) {
         this.expirationTime = value;
     }
 
@@ -124,10 +124,10 @@ public class MgmtCmd extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
@@ -136,10 +136,10 @@ public class MgmtCmd extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setCreationTime(XMLGregorianCalendar value) {
+    public void setCreationTime(String value) {
         this.creationTime = value;
     }
 
@@ -148,10 +148,10 @@ public class MgmtCmd extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getLastModifiedTime() {
+    public String getLastModifiedTime() {
         return lastModifiedTime;
     }
 
@@ -160,10 +160,10 @@ public class MgmtCmd extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setLastModifiedTime(XMLGregorianCalendar value) {
+    public void setLastModifiedTime(String value) {
         this.lastModifiedTime = value;
     }
 

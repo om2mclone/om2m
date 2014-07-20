@@ -192,7 +192,7 @@ public class SclBaseController extends Controller {
             sclBase.setSearchStrings(sclBaseNew.getSearchStrings());
         }
         // Set LastModifiedTime
-        sclBase.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        sclBase.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         //Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, sclBase);

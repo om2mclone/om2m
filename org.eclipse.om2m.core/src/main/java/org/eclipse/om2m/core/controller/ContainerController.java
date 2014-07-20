@@ -142,9 +142,9 @@ public class ContainerController extends Controller {
             container.setAnnounceTo(announceTo);
         }
         // Set CreationTime
-        container.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        container.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         // Set LastModifiedTime
-        container.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        container.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         //Set references
         container.setContentInstancesReference(container.getUri()+"/contentInstances");
         container.setSubscriptionsReference(container.getUri()+"/subscriptions");
@@ -298,7 +298,7 @@ public class ContainerController extends Controller {
             container.setMaxInstanceAge(containerNew.getMaxInstanceAge());
         }
         // Set LastModifiedTime
-        container.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        container.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, container);

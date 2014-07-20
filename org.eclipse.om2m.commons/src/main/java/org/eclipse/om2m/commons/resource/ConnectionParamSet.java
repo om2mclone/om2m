@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -68,7 +68,7 @@ public class ConnectionParamSet {
     protected long securityKmcIndex;
     @XmlElement(required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar securityLifetime;
+    protected String securityLifetime;
     @XmlElement(required = true, type = String.class)
     @XmlJavaTypeAdapter(HexBinaryAdapter.class)
     protected byte[] securityM2MKey;
@@ -128,11 +128,11 @@ public class ConnectionParamSet {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      * @throws DatatypeConfigurationException
      *
      */
-    public XMLGregorianCalendar getSecurityLifetime() throws DatatypeConfigurationException {
+    public String getSecurityLifetime() throws DatatypeConfigurationException {
 
         return securityLifetime;
     }
@@ -142,10 +142,10 @@ public class ConnectionParamSet {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setSecurityLifetime(XMLGregorianCalendar value) {
+    public void setSecurityLifetime(String value) {
         this.securityLifetime = value;
     }
 

@@ -213,9 +213,9 @@ public class SclController extends Controller {
         scl.setM2MPocsReference(scl.getUri()+"/m2mPocs");
         scl.setAttachedDevicesReference(scl.getUri()+"/attachedDevices");
         // Set CreationTime
-        scl.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        scl.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         // Set LastModifiedTime
-        scl.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        scl.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_CREATED, scl);
@@ -444,7 +444,7 @@ public class SclController extends Controller {
             scl.setIntegrityValResults(sclNew.getIntegrityValResults());
         }
         // Set LastModifiedTime
-        scl.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        scl.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, scl);

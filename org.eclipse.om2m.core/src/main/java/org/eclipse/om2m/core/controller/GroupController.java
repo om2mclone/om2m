@@ -172,9 +172,9 @@ public class GroupController extends Controller {
         group.setMembersContentReference(group.getUri()+"/membersContent");
         group.setSubscriptionsReference(group.getUri()+"/subscriptions");
         // Set CreationTime
-        group.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        group.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         // Set LastModifiedTime
-        group.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        group.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Announcement
         if (group.getAnnounceTo().isActivated()) {
@@ -342,7 +342,7 @@ public class GroupController extends Controller {
             group.setAnnounceTo(groupNew.getAnnounceTo());
         }
         //Set LastModifiedTime
-        group.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        group.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, group);

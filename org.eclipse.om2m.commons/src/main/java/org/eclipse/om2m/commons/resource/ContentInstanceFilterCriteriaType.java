@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -67,10 +67,10 @@ public class ContentInstanceFilterCriteriaType extends FilterCriteriaType {
     protected List<String> searchString;
     @XmlElement(namespace = "")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar createdSince;
+    protected String createdSince;
     @XmlElement(namespace = "")
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar createdUntil;
+    protected String createdUntil;
     @XmlElement(namespace = "")
     protected Integer sizeFrom;
     @XmlElement(namespace = "")
@@ -141,10 +141,10 @@ public class ContentInstanceFilterCriteriaType extends FilterCriteriaType {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getCreatedSince() {
+    public String getCreatedSince() {
         return createdSince;
     }
 
@@ -153,10 +153,10 @@ public class ContentInstanceFilterCriteriaType extends FilterCriteriaType {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setCreatedSince(XMLGregorianCalendar value) {
+    public void setCreatedSince(String value) {
         this.createdSince = value;
     }
 
@@ -165,10 +165,10 @@ public class ContentInstanceFilterCriteriaType extends FilterCriteriaType {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getCreatedUntil() {
+    public String getCreatedUntil() {
         return createdUntil;
     }
 
@@ -177,10 +177,10 @@ public class ContentInstanceFilterCriteriaType extends FilterCriteriaType {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setCreatedUntil(XMLGregorianCalendar value) {
+    public void setCreatedUntil(String value) {
         this.createdUntil = value;
     }
 

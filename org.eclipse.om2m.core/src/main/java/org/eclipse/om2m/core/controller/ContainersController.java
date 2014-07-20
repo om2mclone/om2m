@@ -170,7 +170,7 @@ public class ContainersController extends Controller {
             containers.setAccessRightID(containersNew.getAccessRightID());
         }
         // Set LastModifiedTime
-        containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, containers);

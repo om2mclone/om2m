@@ -149,7 +149,7 @@ public class AttachedDevicesController extends Controller {
             attachedDevices.setAccessRightID(attachedDevicesNew.getAccessRightID());
         }
         // Set LastModifiedTime
-        attachedDevices.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        attachedDevices.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, attachedDevices);

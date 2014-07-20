@@ -83,7 +83,7 @@ public class MembersContentController extends Controller {
                       Status status = new MembersContentResponses.Status();
                       status.setId(memberRequestIndication.getTargetID());
                       status.setStatusCode(responseConfirm.getStatusCode().value());
-                      status.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+                      status.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
                        if (responseConfirm.getRepresentation() != null) {
                             Base64Binary responseBody = new Base64Binary();
                             responseBody.setValue(responseConfirm.getRepresentation().getBytes());

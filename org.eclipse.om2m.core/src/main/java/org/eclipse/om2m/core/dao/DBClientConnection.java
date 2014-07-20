@@ -1,21 +1,21 @@
 /*******************************************************************************
- * Copyright (c) 2013-2014 LAAS-CNRS (www.laas.fr) 
+ * Copyright (c) 2013-2014 LAAS-CNRS (www.laas.fr)
  * 7 Colonel Roche 31077 Toulouse - France
- * 
+ *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
- *     Thierry Monteil (Project co-founder) - Management and initial specification, 
- * 		conception and documentation.
- *     Mahdi Ben Alaya (Project co-founder) - Management and initial specification, 
- * 		conception, implementation, test and documentation.
+ *     Thierry Monteil (Project co-founder) - Management and initial specification,
+ *         conception and documentation.
+ *     Mahdi Ben Alaya (Project co-founder) - Management and initial specification,
+ *         conception, implementation, test and documentation.
  *     Christophe Chassot - Management and initial specification.
  *     Khalil Drira - Management and initial specification.
- *     Yassine Banouar - Initial specification, conception, implementation, test 
- * 		and documentation.
+ *     Yassine Banouar - Initial specification, conception, implementation, test
+ *         and documentation.
  ******************************************************************************/
 package org.eclipse.om2m.core.dao;
 
@@ -23,9 +23,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclipse.om2m.commons.resource.APoCPath;
 import org.eclipse.om2m.commons.resource.APoCPaths;
+import org.eclipse.om2m.commons.resource.AccessRights;
 import org.eclipse.om2m.commons.resource.AnnounceTo;
 import org.eclipse.om2m.commons.resource.AnyURIList;
-import org.eclipse.om2m.commons.resource.ApplicationIDs;
+import org.eclipse.om2m.commons.resource.Application;
 import org.eclipse.om2m.commons.resource.Applications;
 import org.eclipse.om2m.commons.resource.Containers;
 import org.eclipse.om2m.commons.resource.ContentInstance;
@@ -34,6 +35,7 @@ import org.eclipse.om2m.commons.resource.ContentInstances;
 import org.eclipse.om2m.commons.resource.ContentTypes;
 import org.eclipse.om2m.commons.resource.ErrorInfo;
 import org.eclipse.om2m.commons.resource.FilterCriteriaType;
+import org.eclipse.om2m.commons.resource.Groups;
 import org.eclipse.om2m.commons.resource.HolderRefListType;
 import org.eclipse.om2m.commons.resource.IntegrityValResults;
 import org.eclipse.om2m.commons.resource.NamedReferenceCollection;
@@ -44,8 +46,10 @@ import org.eclipse.om2m.commons.resource.RcatList;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 import org.eclipse.om2m.commons.resource.Resource;
 import org.eclipse.om2m.commons.resource.Schedule;
-import org.eclipse.om2m.commons.resource.SclIDs;
+import org.eclipse.om2m.commons.resource.Scl;
+import org.eclipse.om2m.commons.resource.Scls;
 import org.eclipse.om2m.commons.resource.SearchStrings;
+import org.eclipse.om2m.commons.resource.Subscriptions;
 import org.eclipse.om2m.commons.resource.TrpdtType;
 import org.eclipse.om2m.core.constants.Constants;
 
@@ -62,7 +66,7 @@ import com.db4o.ext.Db4oException;
  *
  * @author <ul>
  *         <li>Yessine Feki < yfeki@laas.fr > < yessine.feki@ieee.org ></li>
- *         <li>Mahdi Ben Alaya < ben.alaya@laas.fr > < benalaya.mahdi@gmail.com ></li>  
+ *         <li>Mahdi Ben Alaya < ben.alaya@laas.fr > < benalaya.mahdi@gmail.com ></li>
  *         <li>Yassine Banouar < ybanouar@laas.fr > < yassine.banouar@gmail.com ></li>
  *         </ul>
  */
@@ -81,18 +85,22 @@ public class DBClientConnection {
             configuration.common().objectClass(Resource.class).objectField("uri").indexed(true);
             configuration.common().updateDepth(7);
             configuration.common().activationDepth(7);
+            configuration.common().objectClass(Application.class).cascadeOnUpdate(true);
             configuration.common().objectClass(Containers.class).maximumActivationDepth(0);
             configuration.common().objectClass(ContentInstances.class).maximumActivationDepth(0);
             configuration.common().objectClass(Applications.class).maximumActivationDepth(0);
-
+            configuration.common().objectClass(Groups.class).maximumActivationDepth(0);
+            configuration.common().objectClass(AccessRights.class).maximumActivationDepth(0);
+            configuration.common().objectClass(Subscriptions.class).maximumActivationDepth(0);
+            configuration.common().objectClass(Scls.class).maximumActivationDepth(0);
             configuration.common().objectClass(Resource.class).cascadeOnDelete(true);
             configuration.common().objectClass(SearchStrings.class).cascadeOnDelete(true);
             configuration.common().objectClass(PermissionListType.class).cascadeOnDelete(true);
             configuration.common().objectClass(PermissionType.class).cascadeOnDelete(true);
             configuration.common().objectClass(PermissionHolderType.class).cascadeOnDelete(true);
             configuration.common().objectClass(HolderRefListType.class).cascadeOnDelete(true);
-            configuration.common().objectClass(ApplicationIDs.class).cascadeOnDelete(true);
-            configuration.common().objectClass(SclIDs.class).cascadeOnDelete(true);
+            configuration.common().objectClass(Application.class).cascadeOnDelete(true);
+            configuration.common().objectClass(Scl.class).cascadeOnDelete(true);
             configuration.common().objectClass(AnnounceTo.class).cascadeOnDelete(true);
             configuration.common().objectClass(AnyURIList.class).cascadeOnDelete(true);
             configuration.common().objectClass(APoCPath.class).cascadeOnDelete(true);
@@ -108,7 +116,6 @@ public class DBClientConnection {
             configuration.common().objectClass(TrpdtType.class).cascadeOnDelete(true);
             configuration.common().objectClass(ContentInstanceCollection.class).cascadeOnDelete(true);
             configuration.common().objectClass(ContentInstance.class).cascadeOnDelete(true);
-
             try {
                 db = Db4oEmbedded.openFile(configuration, Constants.DB_FILE);
             } catch (Db4oException e) {

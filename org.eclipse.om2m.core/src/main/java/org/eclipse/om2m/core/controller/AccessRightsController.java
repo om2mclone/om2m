@@ -156,7 +156,7 @@ public class AccessRightsController extends Controller {
             accessRights.setAccessRightID(accessRightsNew.getAccessRightID());
         }
         // Set LastModifiedTime
-        accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, accessRights);

@@ -53,8 +53,8 @@ public class MgmtObjDAO extends DAO<MgmtObj> {
         DAOFactory.getSubscriptionsDAO().create(subscriptions);
         // Update the lastModifiedTime attribute of the parent
         MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(mgmtObjs.getLastModifiedTime());
+        mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(mgmtObjs);
         // Validate the current transaction
         commit();
     }
@@ -97,8 +97,8 @@ public class MgmtObjDAO extends DAO<MgmtObj> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(mgmtObjs.getLastModifiedTime());
+        mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(mgmtObjs);
         // Validate the current transaction
         commit();
     }
@@ -127,7 +127,7 @@ public class MgmtObjDAO extends DAO<MgmtObj> {
 
         // Update the lastModifiedTime attribute of the parent
         MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(mgmtObjs.getLastModifiedTime());
+        mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(mgmtObjs);
     }
 }

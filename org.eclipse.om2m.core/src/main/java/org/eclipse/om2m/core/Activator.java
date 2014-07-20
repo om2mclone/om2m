@@ -194,8 +194,8 @@ public class Activator implements BundleActivator {
             SclBase sclBase = new SclBase();
             sclBase.setUri(Constants.SCL_ID);
             sclBase.setAccessRightID(sclBase.getUri()+"/accessRights/"+Constants.ADMIN_PROFILE_ID);
-            sclBase.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
-            sclBase.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+            sclBase.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+            sclBase.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
             SearchStrings searchStrings = new SearchStrings();
             searchStrings.getSearchString().add(Constants.SEARCH_STRING_RES_TYPE+sclBase.getClass().getSimpleName());
             searchStrings.getSearchString().add(Constants.SEARCH_STRING_RES_ID+Constants.SCL_ID);
@@ -265,8 +265,8 @@ public class Activator implements BundleActivator {
                     nscl.setUri(Constants.SCL_ID+""+"/scls/"+Constants.NSCL_ID);
                     nscl.setSclId(Constants.NSCL_ID);
                     nscl.setAccessRightID(Constants.SCL_ID+"/accessRights/"+Constants.ADMIN_PROFILE_ID);
-                    nscl.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
-                    nscl.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+                    nscl.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+                    nscl.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
                     SearchStrings searchStrings = new SearchStrings();
                     searchStrings.getSearchString().add(Constants.SEARCH_STRING_RES_TYPE+nscl.getClass().getSimpleName());
                     searchStrings.getSearchString().add(Constants.SEARCH_STRING_RES_ID+Constants.NSCL_ID);
@@ -378,8 +378,8 @@ public class Activator implements BundleActivator {
             //Set SelfPermissions in AccessRight
             accessRight.setSelfPermissions(selfPermissions);
 
-            accessRight.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-            accessRight.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
+            accessRight.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+            accessRight.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
             DAOFactory.getAccessRightDAO().create(accessRight);
         }

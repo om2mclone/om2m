@@ -169,9 +169,9 @@ public class ApplicationController extends Controller {
         application.setSubscriptionsReference(application.getUri()+"/subscriptions");
         application.setNotificationChannelsReference(application.getUri()+"/notificationChannels");
         // Set CreationTime
-        application.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        application.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         // Set LastModifiedTime
-        application.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        application.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Announcement
         if (application.getAnnounceTo().isActivated()) {
@@ -338,7 +338,7 @@ public class ApplicationController extends Controller {
             application.setLocRequestor(applicationNew.getLocRequestor());
         }
         //Set LastModifiedTime
-        application.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        application.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, application);

@@ -164,10 +164,10 @@ public class SclsController extends Controller {
         // Store applicationsFind
         DAOFactory.getSclsDAO().update(scls);
         // Set LastModifiedTime
-        scls.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        scls.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         // Update sclBase LastModifiedTime
         SclBase sclBase = DAOFactory.getSclBaseDAO().find(requestIndication.getTargetID().split("/scls")[0]);
-        sclBase.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        sclBase.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         // Response
         return new ResponseConfirm(StatusCode.STATUS_OK, scls);
 

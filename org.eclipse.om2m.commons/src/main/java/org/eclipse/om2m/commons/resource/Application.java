@@ -12,7 +12,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 /**
  * <p>
@@ -59,11 +58,11 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Application extends Resource {
 
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar expirationTime;
+    protected String expirationTime;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar creationTime;
+    protected String creationTime;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastModifiedTime;
+    protected String lastModifiedTime;
     protected AnnounceTo announceTo;
     @XmlSchemaType(name = "anyURI")
     protected String aPoC;
@@ -116,10 +115,10 @@ public class Application extends Resource {
     /**
      * Gets the value of the expirationTime property.
      *
-     * @return possible object is {@link XMLGregorianCalendar }
+     * @return possible object is {@link String }
      *
      */
-    public XMLGregorianCalendar getExpirationTime() {
+    public String getExpirationTime() {
         return expirationTime;
     }
 
@@ -127,20 +126,20 @@ public class Application extends Resource {
      * Sets the value of the expirationTime property.
      *
      * @param value
-     *            allowed object is {@link XMLGregorianCalendar }
+     *            allowed object is {@link String }
      *
      */
-    public void setExpirationTime(XMLGregorianCalendar value) {
+    public void setExpirationTime(String value) {
         this.expirationTime = value;
     }
 
     /**
      * Gets the value of the creationTime property.
      *
-     * @return possible object is {@link XMLGregorianCalendar }
+     * @return possible object is {@link String }
      *
      */
-    public XMLGregorianCalendar getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
@@ -148,20 +147,20 @@ public class Application extends Resource {
      * Sets the value of the creationTime property.
      *
      * @param value
-     *            allowed object is {@link XMLGregorianCalendar }
+     *            allowed object is {@link String }
      *
      */
-    public void setCreationTime(XMLGregorianCalendar value) {
+    public void setCreationTime(String value) {
         this.creationTime = value;
     }
 
     /**
      * Gets the value of the lastModifiedTime property.
      *
-     * @return possible object is {@link XMLGregorianCalendar }
+     * @return possible object is {@link String }
      *
      */
-    public XMLGregorianCalendar getLastModifiedTime() {
+    public String getLastModifiedTime() {
         return lastModifiedTime;
     }
 
@@ -169,10 +168,10 @@ public class Application extends Resource {
      * Sets the value of the lastModifiedTime property.
      *
      * @param value
-     *            allowed object is {@link XMLGregorianCalendar }
+     *            allowed object is {@link String }
      *
      */
-    public void setLastModifiedTime(XMLGregorianCalendar value) {
+    public void setLastModifiedTime(String value) {
         this.lastModifiedTime = value;
     }
 

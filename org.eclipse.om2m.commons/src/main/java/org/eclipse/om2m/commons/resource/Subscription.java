@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -56,14 +56,14 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Subscription extends Resource {
 
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar expirationTime;
+    protected String expirationTime;
     protected Long minimalTimeBetweenNotifications;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar delayTolerance;
+    protected String delayTolerance;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar creationTime;
+    protected String creationTime;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastModifiedTime;
+    protected String lastModifiedTime;
     protected FilterCriteriaType filterCriteria;
     protected SubscriptionType subscriptionType;
     @XmlSchemaType(name = "anyURI")
@@ -104,10 +104,10 @@ public class Subscription extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getExpirationTime() {
+    public String getExpirationTime() {
         return expirationTime;
     }
 
@@ -116,10 +116,10 @@ public class Subscription extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setExpirationTime(XMLGregorianCalendar value) {
+    public void setExpirationTime(String value) {
         this.expirationTime = value;
     }
 
@@ -152,10 +152,10 @@ public class Subscription extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getDelayTolerance() {
+    public String getDelayTolerance() {
         return delayTolerance;
     }
 
@@ -164,10 +164,10 @@ public class Subscription extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setDelayTolerance(XMLGregorianCalendar value) {
+    public void setDelayTolerance(String value) {
         this.delayTolerance = value;
     }
 
@@ -176,10 +176,10 @@ public class Subscription extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
@@ -188,10 +188,10 @@ public class Subscription extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setCreationTime(XMLGregorianCalendar value) {
+    public void setCreationTime(String value) {
         this.creationTime = value;
     }
 
@@ -200,10 +200,10 @@ public class Subscription extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getLastModifiedTime() {
+    public String getLastModifiedTime() {
         return lastModifiedTime;
     }
 
@@ -212,10 +212,10 @@ public class Subscription extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setLastModifiedTime(XMLGregorianCalendar value) {
+    public void setLastModifiedTime(String value) {
         this.lastModifiedTime = value;
     }
 

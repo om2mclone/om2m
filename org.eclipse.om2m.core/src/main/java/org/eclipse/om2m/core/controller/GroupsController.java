@@ -157,7 +157,7 @@ public class GroupsController extends Controller {
             groups.setAccessRightID(groupsNew.getAccessRightID());
         }
         // Set LastModifiedTime
-        groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, groups);

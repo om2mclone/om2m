@@ -49,8 +49,8 @@ public class GroupAnncDAO extends DAO<GroupAnnc> {
 
         // Update the lastModifiedTime attribute of the parent
         Groups groups = DAOFactory.getGroupsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(groups.getLastModifiedTime());
+        groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(groups);
         // Validate the current transaction
         commit();
     }
@@ -93,8 +93,8 @@ public class GroupAnncDAO extends DAO<GroupAnnc> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         Groups groups = DAOFactory.getGroupsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(groups.getLastModifiedTime());
+        groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(groups);
         // Validate the current transaction
         commit();
     }
@@ -119,7 +119,7 @@ public class GroupAnncDAO extends DAO<GroupAnnc> {
         DB.delete(resource);
         // Update the lastModifiedTime attribute of the parent
         Groups groups = DAOFactory.getGroupsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(groups.getLastModifiedTime());
+        groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(groups);
     }
 }

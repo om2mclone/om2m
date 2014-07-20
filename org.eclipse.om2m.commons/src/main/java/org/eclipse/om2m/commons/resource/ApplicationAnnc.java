@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -56,7 +56,7 @@ public class ApplicationAnnc extends Resource {
     @XmlSchemaType(name = "anyURI")
     protected String link;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar expirationTime;
+    protected String expirationTime;
     @XmlSchemaType(name = "anyURI")
     protected String containersReference;
     @XmlSchemaType(name = "anyURI")
@@ -96,10 +96,10 @@ public class ApplicationAnnc extends Resource {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getExpirationTime() {
+    public String getExpirationTime() {
         return expirationTime;
     }
 
@@ -108,10 +108,10 @@ public class ApplicationAnnc extends Resource {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setExpirationTime(XMLGregorianCalendar value) {
+    public void setExpirationTime(String value) {
         this.expirationTime = value;
     }
 

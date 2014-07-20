@@ -156,7 +156,7 @@ public class MgmtObjsController extends Controller {
             mgmtObjs.setAccessRightID(mgmtObjsNew.getAccessRightID());
         }
         // Set LastModifiedTime
-        mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, mgmtObjs);

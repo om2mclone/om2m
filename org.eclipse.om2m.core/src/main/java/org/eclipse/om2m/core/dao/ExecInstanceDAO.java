@@ -55,8 +55,8 @@ public class ExecInstanceDAO extends DAO<ExecInstance>{
 
         // Update the lastModifiedTime attribute of the parent
         ExecInstances execInstances = DAOFactory.getExecInstancesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(execInstances.getLastModifiedTime());
+        execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(execInstances);
         // Validate the current transaction
         commit();
     }
@@ -99,8 +99,8 @@ public class ExecInstanceDAO extends DAO<ExecInstance>{
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         ExecInstances execInstances = DAOFactory.getExecInstancesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(execInstances.getLastModifiedTime());
+        execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(execInstances);
         // Validate the current transaction
         commit();
     }
@@ -127,7 +127,7 @@ public class ExecInstanceDAO extends DAO<ExecInstance>{
         DB.delete(resource);
         // Update the lastModifiedTime attribute of the parent
         ExecInstances execInstances = DAOFactory.getExecInstancesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(execInstances.getLastModifiedTime());
+        execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(execInstances);
     }
 }

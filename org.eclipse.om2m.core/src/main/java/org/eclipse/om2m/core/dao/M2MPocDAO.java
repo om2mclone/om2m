@@ -48,8 +48,8 @@ public class M2MPocDAO extends DAO<M2MPoc> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         M2MPocs m2mPocs = DAOFactory.getM2MPocsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        m2mPocs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(m2mPocs.getLastModifiedTime());
+        m2mPocs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(m2mPocs);
         // Validate the current transaction
         commit();
     }
@@ -93,8 +93,8 @@ public class M2MPocDAO extends DAO<M2MPoc> {
 
         // Update the lastModifiedTime attribute of the parent
         M2MPocs m2mPocs = DAOFactory.getM2MPocsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        m2mPocs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(m2mPocs.getLastModifiedTime());
+        m2mPocs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(m2mPocs);
         // Validate the current transaction
         commit();
     }
@@ -120,7 +120,7 @@ public class M2MPocDAO extends DAO<M2MPoc> {
 
         // Update the lastModifiedTime attribute of the parent
         M2MPocs m2mPocs = DAOFactory.getM2MPocsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        m2mPocs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(m2mPocs.getLastModifiedTime());
+        m2mPocs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(m2mPocs);
     }
 }

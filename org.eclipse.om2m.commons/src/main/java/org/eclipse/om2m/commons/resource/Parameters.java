@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 import org.w3c.dom.Element;
 
@@ -56,9 +56,9 @@ import org.w3c.dom.Element;
 public class Parameters extends Resource{
 
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar creationTime;
+    protected String creationTime;
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar lastModifiedTime;
+    protected String lastModifiedTime;
     protected String originalMO;
     @XmlElement(required = true)
     protected NamedReferenceCollection parametersCollection;
@@ -75,10 +75,10 @@ public class Parameters extends Resource{
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getCreationTime() {
+    public String getCreationTime() {
         return creationTime;
     }
 
@@ -87,10 +87,10 @@ public class Parameters extends Resource{
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setCreationTime(XMLGregorianCalendar value) {
+    public void setCreationTime(String value) {
         this.creationTime = value;
     }
 
@@ -99,10 +99,10 @@ public class Parameters extends Resource{
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getLastModifiedTime() {
+    public String getLastModifiedTime() {
         return lastModifiedTime;
     }
 
@@ -111,10 +111,10 @@ public class Parameters extends Resource{
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setLastModifiedTime(XMLGregorianCalendar value) {
+    public void setLastModifiedTime(String value) {
         this.lastModifiedTime = value;
     }
 

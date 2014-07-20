@@ -48,8 +48,8 @@ public class LocationContainerAnncDAO extends DAO<LocationContainerAnnc> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         Containers containers = DAOFactory.getContainersDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(containers.getLastModifiedTime());
+        containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(containers);
         // Validate the current transaction
         commit();
     }
@@ -92,8 +92,8 @@ public class LocationContainerAnncDAO extends DAO<LocationContainerAnnc> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         Containers containers =  DAOFactory.getContainersDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(containers.getLastModifiedTime());
+        containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(containers);
         // Validate the current transaction
         commit();
     }
@@ -118,7 +118,7 @@ public class LocationContainerAnncDAO extends DAO<LocationContainerAnnc> {
         DB.delete(resource);
         // Update the lastModifiedTime attribute of the parent
         Containers containers =  DAOFactory.getContainersDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DAOFactory.getContainersDAO().update(containers);
     }
 }

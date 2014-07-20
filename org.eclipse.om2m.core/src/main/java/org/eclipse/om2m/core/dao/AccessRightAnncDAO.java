@@ -49,8 +49,8 @@ public class AccessRightAnncDAO extends DAO<AccessRightAnnc> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         AccessRights accessRights = DAOFactory.getAccessRightsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(accessRights.getLastModifiedTime());
+        accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(accessRights);
         // Validate the current transaction
         commit();
     }
@@ -93,8 +93,8 @@ public class AccessRightAnncDAO extends DAO<AccessRightAnnc> {
         DB.store(resource);
         // Update the lastModifiedTime attribute of the parent
         AccessRights accessRights = DAOFactory.getAccessRightsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(accessRights.getLastModifiedTime());
+        accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(accessRights);
         // Validate the current transaction
         commit();
     }
@@ -119,8 +119,8 @@ public class AccessRightAnncDAO extends DAO<AccessRightAnnc> {
         DB.delete(resource);
         // Update the lastModifiedTime attribute of the parent
         AccessRights accessRights = DAOFactory.getAccessRightsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        DB.store(accessRights.getLastModifiedTime());
+        accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(accessRights);
     }
 
 }

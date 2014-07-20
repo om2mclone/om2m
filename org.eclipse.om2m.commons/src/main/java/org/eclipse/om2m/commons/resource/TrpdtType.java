@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.Duration;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -48,7 +48,7 @@ public class TrpdtType {
     protected Duration tolerableDelay;
     @XmlElement(namespace = "")
     @XmlSchemaType(name = "time")
-    protected XMLGregorianCalendar tolerableTime;
+    protected String tolerableTime;
 
     /**
      * Gets the value of the property tolerableDelay.
@@ -79,10 +79,10 @@ public class TrpdtType {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getTolerableTime() {
+    public String getTolerableTime() {
         return tolerableTime;
     }
 
@@ -91,10 +91,10 @@ public class TrpdtType {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setTolerableTime(XMLGregorianCalendar value) {
+    public void setTolerableTime(String value) {
         this.tolerableTime = value;
     }
 

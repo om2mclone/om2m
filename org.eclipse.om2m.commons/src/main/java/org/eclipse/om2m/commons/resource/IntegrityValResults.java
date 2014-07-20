@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
+
 
 
 /**
@@ -51,7 +51,7 @@ public class IntegrityValResults {
     protected long signedIvalResult;
     @XmlElement(namespace = "", required = true)
     @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar secureTimeStamp;
+    protected String secureTimeStamp;
 
     /**
      * Gets the value of the property ivalResults.
@@ -90,10 +90,10 @@ public class IntegrityValResults {
      *
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public XMLGregorianCalendar getSecureTimeStamp() {
+    public String getSecureTimeStamp() {
         return secureTimeStamp;
     }
 
@@ -102,10 +102,10 @@ public class IntegrityValResults {
      *
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *
      */
-    public void setSecureTimeStamp(XMLGregorianCalendar value) {
+    public void setSecureTimeStamp(String value) {
         this.secureTimeStamp = value;
     }
 

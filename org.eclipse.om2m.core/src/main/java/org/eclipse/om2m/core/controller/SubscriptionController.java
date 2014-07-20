@@ -130,8 +130,8 @@ public class SubscriptionController extends Controller {
         subscription.setSubscriptionType(SubscriptionType.ASYNCHRONOUS);
 
         //Set CreationTime
-        subscription.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()));
-        subscription.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        subscription.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        subscription.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         //Store subscription
         DAOFactory.getSubscriptionDAO().create(subscription);
@@ -257,7 +257,7 @@ public class SubscriptionController extends Controller {
             subscription.setDelayTolerance(subscriptionNew.getDelayTolerance());
         }
         // Set LastModifiedTime
-        subscription.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        subscription.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Store container
         DAOFactory.getSubscriptionDAO().update(subscription);

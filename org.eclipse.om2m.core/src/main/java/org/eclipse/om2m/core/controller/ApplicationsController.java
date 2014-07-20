@@ -160,7 +160,7 @@ public class ApplicationsController extends Controller {
             applications.setAccessRightID(applicationsNew.getAccessRightID());
         }
         // Set LastModifiedTime
-        applications.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()));
+        applications.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
 
         // Notify the subscribers
         Notifier.notify(StatusCode.STATUS_OK, applications);

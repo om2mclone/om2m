@@ -28,6 +28,7 @@ import org.eclipse.om2m.commons.resource.AccessRight;
 import org.eclipse.om2m.commons.resource.AnyURIList;
 import org.eclipse.om2m.commons.resource.HolderRefListType;
 import org.eclipse.om2m.commons.resource.MgmtProtocolType;
+import org.eclipse.om2m.commons.resource.OnlineStatus;
 import org.eclipse.om2m.commons.resource.PermissionFlagListType;
 import org.eclipse.om2m.commons.resource.PermissionFlagType;
 import org.eclipse.om2m.commons.resource.PermissionHolderType;
@@ -48,6 +49,7 @@ import org.eclipse.om2m.core.constants.Constants;
 import org.eclipse.om2m.core.controller.InterworkingProxyController;
 import org.eclipse.om2m.core.dao.DAOFactory;
 import org.eclipse.om2m.core.dao.DBClientConnection;
+import org.eclipse.om2m.core.notifier.Notifier;
 import org.eclipse.om2m.core.router.Router;
 import org.eclipse.om2m.core.service.SclService;
 import org.eclipse.om2m.ipu.service.IpuService;
@@ -274,7 +276,22 @@ public class Activator implements BundleActivator {
                     nscl.setPocs(pocs);
                     nscl.setLink(Constants.NSCL_ID);
                     nscl.setMgmtProtocolType(MgmtProtocolType.OMA_DM);
+                    nscl.setOnlineStatus(OnlineStatus.ONLINE);
+                    nscl.setServerCapability(true);
+                    // Set References
+                    nscl.setContainersReference(nscl.getUri()+"/containers");
+                    nscl.setGroupsReference(nscl.getUri()+"/groups");
+                    nscl.setApplicationsReference(nscl.getUri()+"/applications");
+                    nscl.setAccessRightsReference(nscl.getUri()+"/accessRights");
+                    nscl.setSubscriptionsReference(nscl.getUri()+"/subscriptions");
+                    nscl.setMgmtObjsReference(nscl.getUri()+"/mgmtObjs");
+                    nscl.setNotificationChannelsReference(nscl.getUri()+"/notificationChannels");
+                    nscl.setM2MPocsReference(nscl.getUri()+"/m2mPocs");
+                    nscl.setAttachedDevicesReference(nscl.getUri()+"/attachedDevices");
+
+                    // Store scl
                     DAOFactory.getSclDAO().create(nscl);
+
                     LOGGER.info("NSCL is successfully registred on GSCL");
                 }
             }.start();

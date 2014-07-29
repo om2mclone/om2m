@@ -211,11 +211,11 @@ public class Activator implements BundleActivator {
             Scl gscl = new Scl();
             gscl.setSclId(Constants.SCL_ID);
             AnyURIList pocs = new AnyURIList();
-            pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.SCL_IP+":"+Constants.SCL_PORT+Constants.SCL_CONTEXT);
+            pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.SCL_IP+":"+Constants.SCL_PORT+Constants.GLOBAL_CONTEXT+Constants.SCL_CONTEXT);
             gscl.setPocs(pocs);
             gscl.setLink(Constants.SCL_ID);
             gscl.setMgmtProtocolType(MgmtProtocolType.OMA_DM);
-            String base = "http://"+Constants.NSCL_IP+":"+ Constants.NSCL_PORT+Constants.NSCL_CONTEXT+"/";
+            String base = Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.NSCL_IP+":"+ Constants.NSCL_PORT+Constants.NSCL_CONTEXT+"/";
 
             // Create RequestIndication
             final RequestIndication requestIndication = new RequestIndication();
@@ -262,7 +262,7 @@ public class Activator implements BundleActivator {
                   //Create an NSCL Scl resource
                     LOGGER.info("Create NSCL registration on GSCL");
                     Scl nscl = new Scl();
-                    nscl.setUri(Constants.SCL_ID+""+"/scls/"+Constants.NSCL_ID);
+                    nscl.setUri(Constants.SCL_ID+"/scls/"+Constants.NSCL_ID);
                     nscl.setSclId(Constants.NSCL_ID);
                     nscl.setAccessRightID(Constants.SCL_ID+"/accessRights/"+Constants.ADMIN_PROFILE_ID);
                     nscl.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());

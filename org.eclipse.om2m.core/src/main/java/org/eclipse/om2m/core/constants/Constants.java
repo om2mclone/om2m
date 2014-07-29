@@ -46,8 +46,11 @@ public class Constants {
     /** Default resources expiration time. */
     public static final long EXPIRATION_TIME = 999999999;
     /** Default ContentInstances collection maximum number of instance. */
-    public static final Long MAX_NBR_OF_INSTANCES = Long.valueOf(System.getProperty("org.eclipse.om2m.maxNrOfInstances","10"));
+    public static final Long MAX_NBR_OF_INSTANCES = Long.valueOf(System.getProperty("org.eclipse.om2m.maxNrOfInstances","100"));
 
+    /** Global listening context. */
+    public static final String GLOBAL_CONTEXT = System.getProperty("org.eclipse.om2m.globalContext","");
+    
     //SclBase communication properties
     /** SclBase default communication protocol. */
     public static final String SCL_DEFAULT_PROTOCOL = System.getProperty("org.eclipse.om2m.sclBaseProtocol.default","http");

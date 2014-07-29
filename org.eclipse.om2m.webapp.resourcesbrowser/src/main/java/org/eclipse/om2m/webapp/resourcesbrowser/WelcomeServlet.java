@@ -35,9 +35,9 @@ import javax.servlet.http.HttpServletResponse;
 public class WelcomeServlet extends HttpServlet {
     /** Serial Version UID */
     private static final long serialVersionUID = 1L;
-      @Override
-      protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
-          //httpServletRequest.getRequestDispatcher("/webapps/index.html").forward (httpServletRequest, httpServletResponse);
-          httpServletResponse.sendRedirect("/welcome/index.html?context="+System.getProperty("org.eclipse.om2m.sclBaseContext", "/om2m")+"&"+"sclId="+System.getProperty("org.eclipse.om2m.sclBaseId", "nscl"));
-      }
+    @Override
+    protected void service(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws ServletException, IOException {
+        //httpServletRequest.getRequestDispatcher("/webapps/index.html").forward (httpServletRequest, httpServletResponse);
+    	httpServletResponse.sendRedirect(Activator.globalContext+Activator.uiContext+Activator.sep+"welcome/index.html?context="+System.getProperty("org.eclipse.om2m.globalContext","")+System.getProperty("org.eclipse.om2m.sclBaseContext", "/om2m")+"&"+"sclId="+System.getProperty("org.eclipse.om2m.sclBaseId", "nscl"));
+    }
 }

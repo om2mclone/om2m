@@ -36,16 +36,24 @@ import org.osgi.util.tracker.ServiceTracker;
 public class Activator implements BundleActivator {
 	/** logger */
 	private static Log LOGGER = LogFactory.getLog(Activator.class);
+	public static String globalContext = System.getProperty("org.eclipse.om2m.globalContext","");
+	public static String uiContext = System.getProperty("org.eclipse.om2m.webInterfaceContext","/");
+	public static String sep ="/";
 	/** HTTP service tracker */
 	private ServiceTracker<Object, Object> httpServiceTracker;
+	
 	@Override
 	public void start(BundleContext context) throws Exception {
+		if(uiContext.equals("/")){
+			sep="";
+		}
+		
 		httpServiceTracker = new ServiceTracker<Object, Object>(context, HttpService.class.getName(), null) {
 	      public void removedService(ServiceReference<Object> reference, Object service) {
 			LOGGER.info("HttpService removed");
 	        try {
-				LOGGER.info("Unregister / http context");
-	           ((HttpService) service).unregister("/");
+				LOGGER.info("Unregister "+uiContext+sep+" http context");
+	           ((HttpService) service).unregister(uiContext+sep);
 	        } catch (IllegalArgumentException e) {
 		        LOGGER.error("Error unregistring webapp servlet",e);
 	        }
@@ -53,11 +61,11 @@ public class Activator implements BundleActivator {
 
 	      public Object addingService(ServiceReference<Object> reference) {
 			LOGGER.info("HttpService discovered");
-	        HttpService httpService = (HttpService) this.context.getService(reference);
+	        HttpService httpService = (HttpService) context.getService(reference);
 	        try{
-			LOGGER.info("Register / http context");
-	          httpService.registerServlet("/", new WelcomeServlet(), null, null);
-			  httpService.registerResources("/welcome", "/webapps", null);
+			LOGGER.info("Register "+uiContext+sep+" http context");
+	          httpService.registerServlet(uiContext+sep, new WelcomeServlet(), null, null);
+			  httpService.registerResources(uiContext+sep+"welcome", uiContext+sep+"webapps", null);
 	        } catch (Exception e) {
 	          LOGGER.error("Error registring webapp servlet",e);
 	        }

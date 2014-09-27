@@ -25,6 +25,7 @@ import org.eclipse.om2m.commons.resource.Scl;
 import org.eclipse.om2m.commons.resource.Scls;
 import org.eclipse.om2m.commons.resource.Subscriptions;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -72,9 +73,11 @@ public class SclsDAO extends DAO<Scls>{
         Scls scls = lazyFind(uri);
 
         if(scls != null) {
+        	ObjectContainer session = DB.ext().openSession();
+
             // Find Scl sub-resources and add their references
             scls.getSclCollection().getNamedReference().clear();
-            Query queryScl = DB.query();
+            Query queryScl = session.query();
             queryScl.constrain(Scl.class);
             queryScl.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<Scl> resultScl = queryScl.execute();
@@ -95,8 +98,10 @@ public class SclsDAO extends DAO<Scls>{
      * @return The requested {@link Scls} collection resource otherwise null
      */
     public Scls lazyFind(String uri) {
+    	ObjectContainer session = DB.ext().openSession();
+
         // Create the query based on the uri constraint
-        Query query = DB.query();
+        Query query = session.query();
         query.constrain(Scls.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

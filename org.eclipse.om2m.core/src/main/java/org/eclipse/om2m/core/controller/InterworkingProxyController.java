@@ -22,12 +22,14 @@ package org.eclipse.om2m.core.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.om2m.comm.service.RestClientService;
 import org.eclipse.om2m.commons.resource.APoCPath;
 import org.eclipse.om2m.commons.resource.Application;
 import org.eclipse.om2m.commons.resource.ErrorInfo;
 import org.eclipse.om2m.commons.resource.StatusCode;
 import org.eclipse.om2m.commons.rest.RequestIndication;
 import org.eclipse.om2m.commons.rest.ResponseConfirm;
+import org.eclipse.om2m.core.comm.RestClient;
 import org.eclipse.om2m.core.constants.Constants;
 import org.eclipse.om2m.core.dao.DAOFactory;
 import org.eclipse.om2m.ipu.service.IpuService;
@@ -109,34 +111,37 @@ public class InterworkingProxyController extends Controller {
         String path = requestIndication.getTargetID().split("/")[3];
         String applicationUri = sclId+"/applications/"+applicationId;
 
+        
         // Check ApplicationResource Existence
-        Application application= DAOFactory.getApplicationDAO().find(applicationUri);
-        if (application == null) {
-            return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,applicationUri+" does not exist")) ;
-        }
-        APoCPath aPoCPath = checkAPoCPathExistence(application, path);
-
-        // Check aPoCPath Existence
-        if (aPoCPath == null) {
-            return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,path+" does not exist")) ;
-        }
-        // Check accessRight
-        errorResponse = checkAccessRight(aPoCPath.getAccessRightID(), requestIndication.getRequestingEntity(), Constants.AR_READ);
-        if (errorResponse != null) {
-            return errorResponse;
-        }
-
-        try{
-            // Forward the request
-            if (ipUnits.containsKey(aPoCPath.getPath())) {
-                return ipUnits.get(aPoCPath.getPath()).doRetrieve (requestIndication);
-            }else {
-                return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,"No IPU found for path "+aPoCPath.getPath())) ;
+            Application application= DAOFactory.getApplicationDAO().find(applicationUri);
+            if (application == null) {
+                	return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,applicationUri+" does not exist")) ;
             }
-        }catch (Exception e) {
-            LOGGER.error("IPU Internal Exception", e);
-            return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_INTERNAL_SERVER_ERROR,"IPU Internal Exception")) ;
-        }
+
+            APoCPath aPoCPath = checkAPoCPathExistence(application, path);
+
+            // Check aPoCPath Existence
+            if (aPoCPath == null) {
+                	return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,path+" does not exist")) ;
+            }
+            // Check accessRight
+            errorResponse = checkAccessRight(aPoCPath.getAccessRightID(), requestIndication.getRequestingEntity(), Constants.AR_READ);
+            if (errorResponse != null) {
+                	return errorResponse;
+            }
+            try{
+                	// Forward the request
+                	if (ipUnits.containsKey(aPoCPath.getPath())) {
+                			return ipUnits.get(aPoCPath.getPath()).doRetrieve (requestIndication);
+                	}else {
+                			return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,"No IPU found for path "+aPoCPath.getPath())) ;
+                		}
+                	}catch (Exception e) {
+                		LOGGER.error("IPU Internal Exception", e);
+                		return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_INTERNAL_SERVER_ERROR,"IPU Internal Exception")) ;
+                	}
+       /** }
+        return new ResponseConfirm();*/
     }
 
     /**

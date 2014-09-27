@@ -31,6 +31,7 @@ import org.eclipse.om2m.commons.rest.RequestIndication;
 import org.eclipse.om2m.commons.rest.ResponseConfirm;
 import org.eclipse.om2m.core.constants.Constants;
 
+
 /**
  *
  * A generic client that acts as a proxy to forward requests to specific rest clients based on their
@@ -54,17 +55,16 @@ public class RestClient{
      * @return The generic returned response
      */
     public ResponseConfirm sendRequest(RequestIndication requestIndication){
-        LOGGER.info(requestIndication);
-        // Set http protocol if null
-        if(requestIndication.getProtocol()==null){
-            requestIndication.setProtocol(Constants.SCL_DEFAULT_PROTOCOL);
-        }
+        LOGGER.info("the requestIndication RC: "+requestIndication);
 
         ResponseConfirm responseConfirm = new ResponseConfirm();
         // Find the appropriate client from the map and send the request
-        if(restClients.containsKey(requestIndication.getProtocol())){
+        
+        // Display to check the discovered protocols
+        String protocol = requestIndication.getBase().split("://")[0];
+        if(restClients.containsKey(protocol)){
             try{
-                responseConfirm = restClients.get(requestIndication.getProtocol()).sendRequest(requestIndication);
+                responseConfirm = restClients.get(protocol).sendRequest(requestIndication);
                 if(responseConfirm.getStatusCode()==null){
                     throw new Exception();
                 }

@@ -25,6 +25,7 @@ import org.eclipse.om2m.commons.resource.MgmtObjs;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 import org.eclipse.om2m.commons.resource.Subscriptions;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -64,8 +65,10 @@ public class MgmtObjsDAO extends DAO<MgmtObjs> {
         MgmtObjs mgmtObjs = lazyFind(uri);
 
         if(mgmtObjs != null){
+        	ObjectContainer session = DB.ext().openSession();
+
             // Find mgmtObj sub-resources and add their references
-            Query queryMgmtObj = DB.query();
+            Query queryMgmtObj = session.query();
             queryMgmtObj.constrain(MgmtObj.class);
             queryMgmtObj.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<MgmtObj> resultMgmtObj = queryMgmtObj.execute();
@@ -79,7 +82,7 @@ public class MgmtObjsDAO extends DAO<MgmtObjs> {
             }
 
             // Find mgmtCmd sub-resources and add their references
-            Query queryMgmtCmd = DB.query();
+            Query queryMgmtCmd = session.query();
             queryMgmtCmd.constrain(MgmtCmd.class);
             queryMgmtCmd.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<MgmtCmd> resultMgmtCmd = queryMgmtCmd.execute();
@@ -101,8 +104,10 @@ public class MgmtObjsDAO extends DAO<MgmtObjs> {
      * @return The requested {@link MgmtObjs} collection resource otherwise null
      */
     public MgmtObjs lazyFind(String uri) {
+    	ObjectContainer session = DB.ext().openSession();
+
         // Create the query based on the uri constraint
-        Query query = DB.query();
+        Query query = session.query();
         query.constrain(MgmtObjs.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

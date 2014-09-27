@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.eclipse.om2m.commons.resource.Application;
 import org.eclipse.om2m.commons.resource.ContentInstance;
 import org.eclipse.om2m.commons.resource.Notify;
 import org.eclipse.om2m.commons.resource.Resource;

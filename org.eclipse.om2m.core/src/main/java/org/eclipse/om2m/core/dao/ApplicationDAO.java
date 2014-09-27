@@ -84,9 +84,17 @@ public class ApplicationDAO extends DAO<Application> {
         notificationChannels.setCreationTime(resource.getCreationTime());
         //notificationChannels.setLastModifiedTime(resource);
         DAOFactory.getNotificationChannelsDAO().create(notificationChannels);
-
+        
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Applications.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getAppId())[0]);
+        // Store all the founded resources
+        ObjectSet<Applications> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Applications applications = DAOFactory.getApplicationsDAO().lazyFind(resource.getUri().split("/"+resource.getAppId())[0]);
+        Applications applications = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         applications.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(applications);
         // Validate the current transaction
@@ -130,8 +138,16 @@ public class ApplicationDAO extends DAO<Application> {
     public void update(Application resource) {
         // Store the updated resource
         DB.store(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Applications.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getAppId())[0]);
+        // Store all the founded resources
+        ObjectSet<Applications> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Applications applications = DAOFactory.getApplicationsDAO().lazyFind(resource.getUri().split("/"+resource.getAppId())[0]);
+        Applications applications = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         applications.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(applications);
         // Validate the current transaction
@@ -168,8 +184,16 @@ public class ApplicationDAO extends DAO<Application> {
         DAOFactory.getNotificationChannelsDAO().lazyDelete(DAOFactory.getNotificationChannelsDAO().lazyFind(resource.getNotificationChannelsReference()));
         // Delete the resource
         DB.delete(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Applications.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getAppId())[0]);
+        // Store all the founded resources
+        ObjectSet<Applications> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Applications applications = DAOFactory.getApplicationsDAO().lazyFind(resource.getUri().split("/"+resource.getAppId())[0]);
+        Applications applications = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         applications.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(applications);
     }

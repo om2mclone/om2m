@@ -51,8 +51,16 @@ public class MgmtObjDAO extends DAO<MgmtObj> {
         Subscriptions subscriptions = new Subscriptions();
         subscriptions.setUri(resource.getSubscriptionsReference());
         DAOFactory.getSubscriptionsDAO().create(subscriptions);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(MgmtObjs.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<MgmtObjs> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        MgmtObjs mgmtObjs = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(mgmtObjs);
         // Validate the current transaction
@@ -95,8 +103,16 @@ public class MgmtObjDAO extends DAO<MgmtObj> {
     public void update(MgmtObj resource) {
         // Store the updated resource
         DB.store(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(MgmtObjs.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<MgmtObjs> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        MgmtObjs mgmtObjs = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(mgmtObjs);
         // Validate the current transaction
@@ -124,9 +140,16 @@ public class MgmtObjDAO extends DAO<MgmtObj> {
 
         // Delete subscriptions
         DAOFactory.getSubscriptionsDAO().lazyDelete(DAOFactory.getSubscriptionsDAO().lazyFind(resource.getSubscriptionsReference()));
-
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(MgmtObjs.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<MgmtObjs> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        MgmtObjs mgmtObjs = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(mgmtObjs);
     }

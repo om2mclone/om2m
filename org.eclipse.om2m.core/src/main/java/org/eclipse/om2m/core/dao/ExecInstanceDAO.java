@@ -53,8 +53,16 @@ public class ExecInstanceDAO extends DAO<ExecInstance>{
         subscriptions.setUri(resource.getSubscriptionsReference());
         DAOFactory.getSubscriptionsDAO().create(subscriptions);
 
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(ExecInstances.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<ExecInstances> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        ExecInstances execInstances = DAOFactory.getExecInstancesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        ExecInstances execInstances = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(execInstances);
         // Validate the current transaction
@@ -97,11 +105,18 @@ public class ExecInstanceDAO extends DAO<ExecInstance>{
     public void update(ExecInstance resource) {
         // Store the updated resource
         DB.store(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(ExecInstances.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<ExecInstances> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        ExecInstances execInstances = DAOFactory.getExecInstancesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        ExecInstances execInstances = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(execInstances);
-        // Validate the current transaction
         commit();
     }
 
@@ -123,10 +138,16 @@ public class ExecInstanceDAO extends DAO<ExecInstance>{
     public void lazyDelete(ExecInstance resource) {
         //delete subscriptions
         DAOFactory.getSubscriptionsDAO().lazyDelete(DAOFactory.getSubscriptionsDAO().lazyFind(resource.getSubscriptionsReference()));
-        // Delete the resource
-        DB.delete(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(ExecInstances.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<ExecInstances> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        ExecInstances execInstances = DAOFactory.getExecInstancesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        ExecInstances execInstances = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         execInstances.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(execInstances);
     }

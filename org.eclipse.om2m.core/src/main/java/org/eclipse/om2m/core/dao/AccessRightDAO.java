@@ -52,8 +52,19 @@ public class AccessRightDAO extends DAO<AccessRight> {
         Subscriptions subscriptions = new Subscriptions();
         subscriptions.setUri(resource.getSubscriptionsReference());
         DAOFactory.getSubscriptionsDAO().create(subscriptions);
+        
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(AccessRights.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<AccessRights> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        AccessRights accessRights = DAOFactory.getAccessRightsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        AccessRights accessRights = result.get(0);
+        
+        // Update the lastModifiedTime attribute of the parent
+        
         accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(accessRights);
         // Validate the current transaction
@@ -96,8 +107,15 @@ public class AccessRightDAO extends DAO<AccessRight> {
     public void update(AccessRight resource) {
         // Store the updated resource
         DB.store(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(AccessRights.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<AccessRights> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        AccessRights accessRights = DAOFactory.getAccessRightsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        AccessRights accessRights = result.get(0);
         accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(accessRights);
         // Validate the current transaction
@@ -124,8 +142,16 @@ public class AccessRightDAO extends DAO<AccessRight> {
         DAOFactory.getSubscriptionsDAO().lazyDelete(DAOFactory.getSubscriptionsDAO().lazyFind(resource.getSubscriptionsReference()));
         // Delete the resource
         DB.delete(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(AccessRights.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<AccessRights> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        AccessRights accessRights = DAOFactory.getAccessRightsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        AccessRights accessRights = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         accessRights.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(accessRights);
     }

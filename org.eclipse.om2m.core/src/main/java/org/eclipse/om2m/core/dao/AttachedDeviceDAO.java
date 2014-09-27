@@ -59,8 +59,16 @@ public class AttachedDeviceDAO extends DAO<AttachedDevice> {
         Subscriptions subscriptions = new Subscriptions();
         subscriptions.setUri(resource.getSubscriptionsReference());
         DAOFactory.getSubscriptionsDAO().create(subscriptions);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(AttachedDevices.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<AttachedDevices> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        AttachedDevices attachedDevices = DAOFactory.getAttachedDevicesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        AttachedDevices attachedDevices = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         attachedDevices.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(attachedDevices);
         // Validate the current transaction
@@ -103,8 +111,16 @@ public class AttachedDeviceDAO extends DAO<AttachedDevice> {
     public void update(AttachedDevice resource) {
         // Store the updated resource
         DB.store(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(AttachedDevices.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<AttachedDevices> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        AttachedDevices attachedDevices = DAOFactory.getAttachedDevicesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        AttachedDevices attachedDevices = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         attachedDevices.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(attachedDevices);
         // Validate the current transaction
@@ -131,10 +147,16 @@ public class AttachedDeviceDAO extends DAO<AttachedDevice> {
         DAOFactory.getSubscriptionsDAO().lazyDelete(DAOFactory.getSubscriptionsDAO().lazyFind(resource.getSubscriptionsReference()));
         //delete mgmtObjs
         DAOFactory.getMgmtObjsDAO().lazyDelete(DAOFactory.getMgmtObjsDAO().lazyFind(resource.getMgmtObjsReference()));
-        // Delete the resource
-        DB.delete(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(AttachedDevices.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<AttachedDevices> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        AttachedDevices attachedDevices = DAOFactory.getAttachedDevicesDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        AttachedDevices attachedDevices = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         attachedDevices.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(attachedDevices);
     }

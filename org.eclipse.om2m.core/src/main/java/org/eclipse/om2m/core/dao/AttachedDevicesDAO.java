@@ -24,6 +24,7 @@ import org.eclipse.om2m.commons.resource.AttachedDevices;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 import org.eclipse.om2m.commons.resource.Subscriptions;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -63,8 +64,10 @@ public class AttachedDevicesDAO extends DAO<AttachedDevices> {
         AttachedDevices attachedDevices = lazyFind(uri);
 
         if(attachedDevices != null){
+        	ObjectContainer session = DB.ext().openSession();
+
             // Find AttachedDevice sub-resources and add their references
-            Query query = DB.query();
+            Query query = session.query();
             query.constrain(AttachedDevice.class);
             query.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<AttachedDevice> result = query.execute();
@@ -87,7 +90,9 @@ public class AttachedDevicesDAO extends DAO<AttachedDevices> {
      */
     public AttachedDevices lazyFind(String uri) {
         // Create the query based on the uri constraint
-        Query query = DB.query();
+    	ObjectContainer session = DB.ext().openSession();
+
+        Query query = session.query();
         query.constrain(AttachedDevices.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

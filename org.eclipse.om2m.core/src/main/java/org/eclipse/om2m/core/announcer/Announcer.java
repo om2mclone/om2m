@@ -65,12 +65,14 @@ public class Announcer {
             String resourceId = uri.split("/")[uri.split("/").length - 1];
             String parentUri = uri.split("/"+resourceId)[0];
             String parentId = parentUri.split("/")[parentUri.split("/").length - 1];
+          
 
             // Retrieve the scls from the SclList without redundancies
             final ArrayList<String> uniqueReferencesList = new ArrayList<String>(
                     new HashSet<String>(announceTo.getSclList().getReference()));
             final AnyURIList sclnewList = new AnyURIList();
             final String decodedRequestingEntity = requestingEntity;
+
 
             String partialPath = null;
             String representation = null;
@@ -169,6 +171,7 @@ public class Announcer {
                 }
             }
             announceTo.setSclList(sclnewList);
+            LOGGER.info("check3****************"+sclnewList);
         }
         return announceTo;
     }

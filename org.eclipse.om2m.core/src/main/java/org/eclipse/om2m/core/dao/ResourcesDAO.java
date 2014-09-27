@@ -24,6 +24,7 @@ import java.util.List;
 import org.eclipse.om2m.commons.resource.Resource;
 import org.eclipse.om2m.commons.resource.Resources;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -48,8 +49,10 @@ public class ResourcesDAO extends DAO<Resources>{
      * @return The requested {@link Resources} otherwise null
      */
     public Resources find(String uri) {
+    	ObjectContainer session = DB.ext().openSession();
+
         // Create the query based on the uri constraint
-        Query query = DB.query();
+        Query query = session.query();
         query.constrain(Resource.class);
         if(uri != null){
             // Store all the founded resources

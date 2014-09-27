@@ -23,6 +23,7 @@ import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 import org.eclipse.om2m.commons.resource.Subscription;
 import org.eclipse.om2m.commons.resource.Subscriptions;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -55,9 +56,11 @@ public class SubscriptionsDAO extends DAO<Subscriptions> {
         Subscriptions subscriptions = lazyFind(uri);
 
         if(subscriptions != null) {
+        	ObjectContainer session = DB.ext().openSession();
+
             // Find subscription sub-resources and add their references
             subscriptions.getSubscriptionCollection().getNamedReference().clear();
-            Query query = DB.query();
+            Query query = session.query();
             query.constrain(Subscription.class);
             query.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<Subscription> result = query.execute();
@@ -78,8 +81,10 @@ public class SubscriptionsDAO extends DAO<Subscriptions> {
      * @return The requested {@link Subscriptions} collection resource otherwise null
      */
     public Subscriptions lazyFind(String uri) {
+    	ObjectContainer session = DB.ext().openSession();
+
         // Create the query based on the uri constraint
-        Query query = DB.query();
+        Query query = session.query();
         query.constrain(Subscriptions.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

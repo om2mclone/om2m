@@ -222,19 +222,20 @@ public abstract class Controller {
      * @return false if the expirationTime attribute is out of date otherwise true
      */
     public boolean checkExpirationTime(String expirationTime) {
-        DateFormat df=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ");
-        Date expDate;
-        try {
-            expDate = df.parse(expirationTime);
-            if (expDate.compareTo(new Date()) > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (ParseException e) {
-            LOGGER.error("Invalid XMLGregorianCalendar Format", e);
-            return false;
-        }
+//        DateFormat df=new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ");
+//        Date expDate;
+//        try {
+//            expDate = df.parse(expirationTime);
+//            if (expDate.compareTo(new Date()) > 0) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        } catch (ParseException e) {
+//            LOGGER.error("Invalid XMLGregorianCalendar Format", e);
+//            return false;
+//        }
+        return true;
 
 
 

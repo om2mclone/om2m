@@ -17,6 +17,7 @@
  *     Yassine Banouar - Initial specification, conception, implementation, test
  *         and documentation.
  ******************************************************************************/
+
 package org.eclipse.om2m.core;
 
 import java.util.Date;
@@ -47,6 +48,7 @@ import org.eclipse.om2m.commons.utils.XmlValidator;
 import org.eclipse.om2m.core.comm.RestClient;
 import org.eclipse.om2m.core.constants.Constants;
 import org.eclipse.om2m.core.controller.InterworkingProxyController;
+import org.eclipse.om2m.core.dao.DAO;
 import org.eclipse.om2m.core.dao.DAOFactory;
 import org.eclipse.om2m.core.dao.DBClientConnection;
 import org.eclipse.om2m.core.notifier.Notifier;
@@ -106,6 +108,7 @@ public class Activator implements BundleActivator {
                 IpuService ipu = (IpuService) this.context.getService(reference);
                 LOGGER.info("Add IPU [ path = "+ipu.getAPOCPath()+" ]");
                 InterworkingProxyController.getIpUnits().put(ipu.getAPOCPath(), ipu);
+                       
                 return ipu;
             }
         };
@@ -125,6 +128,11 @@ public class Activator implements BundleActivator {
                 RestClientService sclClient = (RestClientService) this.context.getService(reference);
                 LOGGER.info("Add RestClientService  [ protocol = "+sclClient.getProtocol()+" ]");
                 RestClient.getRestClients().put(sclClient.getProtocol(),sclClient);
+                // Display to check on the discovered protocols
+                //Map <String, RestClientService> map=RestClient.getRestClients();
+                //for (Map.Entry< String,RestClientService > x: map.entrySet() )
+                //{ LOGGER.info("the key: "+ x.getKey()+ " the value: "+ x.getValue());}
+
                 return sclClient;
             }
         };
@@ -211,7 +219,8 @@ public class Activator implements BundleActivator {
             Scl gscl = new Scl();
             gscl.setSclId(Constants.SCL_ID);
             AnyURIList pocs = new AnyURIList();
-            pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.SCL_IP+":"+Constants.SCL_PORT+Constants.GLOBAL_CONTEXT+Constants.SCL_CONTEXT);
+            pocs.getReference().add("http://"+Constants.SCL_IP+":"+Constants.SCL_PORT+Constants.SCL_CONTEXT);
+            //pocs.getReference().add("coap://"+Constants.SCL_IP+":"+Constants.COAP_PORT/*+Constants.SCL_CONTEXT*/);
             gscl.setPocs(pocs);
             gscl.setLink(Constants.SCL_ID);
             gscl.setMgmtProtocolType(MgmtProtocolType.OMA_DM);
@@ -220,10 +229,12 @@ public class Activator implements BundleActivator {
             // Create RequestIndication
             final RequestIndication requestIndication = new RequestIndication();
             requestIndication.setMethod(Constants.METHOD_CREATE);
-            requestIndication.setRequestingEntity(Constants.ADMIN_REQUESTING_ENTITY);
+            requestIndication.setRequestingEntity(Constants.ADMIN_REQUESTING_ENTITY);            
             requestIndication.setTargetID(Constants.NSCL_ID+"/scls");
             requestIndication.setRepresentation(XmlMapper.getInstance().objectToXml(gscl));
             requestIndication.setBase(base);
+            
+            LOGGER.info("The requestIndication : " + requestIndication );
 
             // Start registration in a new Thread
             new Thread(){
@@ -260,9 +271,11 @@ public class Activator implements BundleActivator {
                         }
                     }
                   //Create an NSCL Scl resource
+                	Router.readWriteLock.readLock().lock();
+
                     LOGGER.info("Create NSCL registration on GSCL");
                     Scl nscl = new Scl();
-                    nscl.setUri(Constants.SCL_ID+"/scls/"+Constants.NSCL_ID);
+                    nscl.setUri(Constants.SCL_ID+""+"/scls/"+Constants.NSCL_ID);
                     nscl.setSclId(Constants.NSCL_ID);
                     nscl.setAccessRightID(Constants.SCL_ID+"/accessRights/"+Constants.ADMIN_PROFILE_ID);
                     nscl.setCreationTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
@@ -272,7 +285,9 @@ public class Activator implements BundleActivator {
                     searchStrings.getSearchString().add(Constants.SEARCH_STRING_RES_ID+Constants.NSCL_ID);
                     nscl.setSearchStrings(searchStrings);
                     AnyURIList pocs = new AnyURIList();
-                    pocs.getReference().add(Constants.SCL_DEFAULT_PROTOCOL+"://"+Constants.NSCL_IP+":"+Constants.NSCL_PORT+Constants.NSCL_CONTEXT);
+                    pocs.getReference().add("http://"+Constants.NSCL_IP+":"+Constants.NSCL_PORT+Constants.NSCL_CONTEXT);
+                    //pocs.getReference().add("coap://"+Constants.NSCL_IP+":"+Constants.NSCL_COAP_PORT/*+Constants.SCL_CONTEXT*/);
+
                     nscl.setPocs(pocs);
                     nscl.setLink(Constants.NSCL_ID);
                     nscl.setMgmtProtocolType(MgmtProtocolType.OMA_DM);
@@ -293,6 +308,7 @@ public class Activator implements BundleActivator {
                     DAOFactory.getSclDAO().create(nscl);
 
                     LOGGER.info("NSCL is successfully registred on GSCL");
+                    Router.readWriteLock.readLock().unlock();
                 }
             }.start();
         }

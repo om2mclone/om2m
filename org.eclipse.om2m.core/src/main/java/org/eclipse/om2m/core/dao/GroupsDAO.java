@@ -25,6 +25,7 @@ import org.eclipse.om2m.commons.resource.Groups;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 import org.eclipse.om2m.commons.resource.Subscriptions;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -64,9 +65,11 @@ public class GroupsDAO extends DAO<Groups> {
         Groups groups = lazyFind(uri);
 
         if (groups != null){
+        	ObjectContainer session = DB.ext().openSession();
+
             //Find Group sub-resources and add their references
             groups.getGroupCollection().getNamedReference().clear();
-            Query queryGroup = DB.query();
+            Query queryGroup = session.query();
             queryGroup.constrain(Group.class);
             queryGroup.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<Group> resultGroup = queryGroup.execute();
@@ -80,7 +83,7 @@ public class GroupsDAO extends DAO<Groups> {
 
             //Find GroupAnnc sub-resources and add their references
             groups.getGroupAnncCollection().getNamedReference().clear();
-            Query queryGroupAnnc = DB.query();
+            Query queryGroupAnnc = session.query();
             queryGroupAnnc.constrain(GroupAnnc.class);
             queryGroupAnnc.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<GroupAnnc> resultGroupAnnc = queryGroupAnnc.execute();
@@ -101,8 +104,10 @@ public class GroupsDAO extends DAO<Groups> {
      * @return The requested {@link Groups} collection resource otherwise null
      */
     public Groups lazyFind(String uri) {
+    	ObjectContainer session = DB.ext().openSession();
+
         // Create the query based on the uri constraint
-        Query query = DB.query();
+        Query query = session.query();
         query.constrain(Groups.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

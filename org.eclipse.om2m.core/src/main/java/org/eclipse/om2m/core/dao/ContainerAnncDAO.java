@@ -46,8 +46,16 @@ public class ContainerAnncDAO extends DAO<ContainerAnnc> {
     public void create(ContainerAnnc resource) {
         // Store the created resource
         DB.store(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Containers.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<Containers> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Containers containers = DAOFactory.getContainersDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        Containers containers = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(containers);
         // Validate the current transaction
@@ -90,11 +98,18 @@ public class ContainerAnncDAO extends DAO<ContainerAnnc> {
     public void update(ContainerAnnc resource) {
         // Store the updated resource
         DB.store(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Containers.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<Containers> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Containers containers =  DAOFactory.getContainersDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        Containers containers = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(containers);
-        // Validate the current transaction
         commit();
     }
 
@@ -116,8 +131,16 @@ public class ContainerAnncDAO extends DAO<ContainerAnnc> {
     public void lazyDelete(ContainerAnnc resource) {
         // Delete the resource
         DB.delete(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Containers.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<Containers> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Containers containers = DAOFactory.getContainersDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        Containers containers = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         containers.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(containers);
     }

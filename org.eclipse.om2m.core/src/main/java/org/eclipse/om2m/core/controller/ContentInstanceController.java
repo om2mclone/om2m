@@ -32,8 +32,10 @@ import org.eclipse.om2m.commons.rest.ResponseConfirm;
 import org.eclipse.om2m.commons.utils.DateConverter;
 import org.eclipse.om2m.commons.utils.XmlMapper;
 import org.eclipse.om2m.core.constants.Constants;
+import org.eclipse.om2m.core.dao.DAO;
 import org.eclipse.om2m.core.dao.DAOFactory;
 import org.eclipse.om2m.core.notifier.Notifier;
+import org.eclipse.om2m.core.router.Router;
 
 /**
  * Implements Create, Retrieve, Update, Delete and Execute methods to handle
@@ -46,14 +48,14 @@ import org.eclipse.om2m.core.notifier.Notifier;
  */
 
 public class ContentInstanceController extends Controller {
-
+	public static Object lock = new Object();
     /**
      * Creates {@link ContentInstance} resource.
      * @param requestIndication - The generic request to handle.
      * @return The generic returned response.
      */
     public ResponseConfirm doCreate (RequestIndication requestIndication) {
-
+    	
         // id:                  (createReq O)  (response M*)
         // href:                (createReq NP) (response O)
         // contentTypes:        (createReq O)  (response O)
@@ -142,14 +144,15 @@ public class ContentInstanceController extends Controller {
             final String oldestCI = requestIndication.getTargetID()+"/oldest";
             new Thread(){
                 public void run(){
-                    // Retrieve the oldest contentInstance
-                    ContentInstance contentInstanceOldest = DAOFactory.getContentInstanceDAO().find(oldestCI);
-                    //Delete the oldest contentInstance
-                    DAOFactory.getContentInstanceDAO().delete(contentInstanceOldest);
+                	Router.readWriteLock.readLock().lock();
+
+	                    ContentInstance contentInstanceOldest = DAOFactory.getContentInstanceDAO().find(oldestCI);
+	                    //Delete the oldest contentInstance
+	                    DAOFactory.getContentInstanceDAO().delete(contentInstanceOldest);
+	                	Router.readWriteLock.readLock().unlock();
                 }
             }.start();
         }
-
 
 
         // Response

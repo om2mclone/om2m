@@ -222,6 +222,7 @@
     <module>org.eclipse.om2m.core.service</module>
     <module>org.eclipse.om2m.commons</module>
     <module>org.eclipse.om2m.comm.http</module>
+    <module>org.eclipse.om2m.comm.coap</module>
     <module>org.eclipse.om2m.comm.service</module>
     <module>org.eclipse.om2m.ipu.sample</module>
 	<module>org.eclipse.om2m.ipu.service</module>

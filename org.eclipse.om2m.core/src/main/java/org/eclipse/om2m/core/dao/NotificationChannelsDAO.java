@@ -23,6 +23,7 @@ import org.eclipse.om2m.commons.resource.NotificationChannel;
 import org.eclipse.om2m.commons.resource.NotificationChannels;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -55,10 +56,12 @@ public class NotificationChannelsDAO extends DAO<NotificationChannels> {
         NotificationChannels notificationChannels = lazyFind(uri);
 
         if (notificationChannels != null){
+        	ObjectContainer session = DB.ext().openSession();
+
             // Find NotificationChannel sub-resources and add their references
             notificationChannels.getNotificationChannelCollection().getNamedReference().clear();
 
-            Query query = DB.query();
+            Query query = session.query();
             query.constrain(NotificationChannel.class);
             query.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<NotificationChannel> result = query.execute();
@@ -79,8 +82,10 @@ public class NotificationChannelsDAO extends DAO<NotificationChannels> {
      * @return The requested {@link NotificationChannels} collection resource otherwise null
      */
     public NotificationChannels lazyFind(String uri) {
+    	ObjectContainer session = DB.ext().openSession();
+
         // Create the query based on the uri constraint
-        Query query = DB.query();
+        Query query = session.query();
         query.constrain(NotificationChannels.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

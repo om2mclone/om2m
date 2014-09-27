@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product uid="nscl" useFeatures="false" includeLaunchers="false">
+<product uid="nscl" useFeatures="false" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -49,6 +49,7 @@
       <plugin id="org.eclipse.jetty.server"/>
       <plugin id="org.eclipse.jetty.servlet"/>
       <plugin id="org.eclipse.jetty.util"/>
+      <plugin id="org.eclipse.om2m.comm.coap"/>
       <plugin id="org.eclipse.om2m.comm.http"/>
       <plugin id="org.eclipse.om2m.comm.service"/>
       <plugin id="org.eclipse.om2m.commons"/>
@@ -65,14 +66,15 @@
       <plugin id="org.apache.felix.gogo.shell" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.console" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.http.jetty" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.om2m.comm.coap" autoStart="true" startLevel="3" />
       <plugin id="org.eclipse.om2m.comm.http" autoStart="true" startLevel="3" />
       <plugin id="org.eclipse.om2m.core" autoStart="true" startLevel="1" />
       <plugin id="org.eclipse.om2m.webapp.resourcesbrowser" autoStart="true" startLevel="3" />
       <property name="org.eclipse.equinox.http.jetty.http.port" value="8080" />
-      <property name="org.eclipse.om2m.adminRequestingEntity" value="admin/admin" />
+      <property name="org.eclipse.om2m.adminRequestingEntity" value="admin:admin" />
       <property name="org.eclipse.om2m.dbFile" value="nscl.db4o" />
       <property name="org.eclipse.om2m.globalContext" value="" />
-      <property name="org.eclipse.om2m.guestRequestingEntity" value="guest/guest" />
+      <property name="org.eclipse.om2m.guestRequestingEntity" value="guest:guest" />
       <property name="org.eclipse.om2m.maxNrOfInstances" value="100" />
       <property name="org.eclipse.om2m.reset" value="true" />
       <property name="org.eclipse.om2m.sclBaseAddress" value="127.0.0.1" />
@@ -81,6 +83,7 @@
       <property name="org.eclipse.om2m.sclBaseProtocol.default" value="http" />
       <property name="org.eclipse.om2m.sclType" value="NSCL" />
       <property name="org.eclipse.om2m.webInterfaceContext" value="/" />
+      <property name="org.eclipse.om2m.coap.port" value="5683" />
    </configurations>
 
 </product>

@@ -17,9 +17,11 @@
  *     Yassine Banouar - Initial specification, conception, implementation, test
  *         and documentation.
  ******************************************************************************/
+
 package org.eclipse.om2m.core.controller;
 
 import java.util.Date;
+import java.util.*;
 
 import org.eclipse.om2m.commons.resource.AnyURIList;
 import org.eclipse.om2m.commons.resource.ErrorInfo;
@@ -36,6 +38,7 @@ import org.eclipse.om2m.core.comm.RestClient;
 import org.eclipse.om2m.core.constants.Constants;
 import org.eclipse.om2m.core.dao.DAOFactory;
 import org.eclipse.om2m.core.notifier.Notifier;
+
 
 /**
  * Implements Create, Retrieve, Update, Delete and Execute methods to handle
@@ -55,7 +58,6 @@ public class SclController extends Controller {
      * @return The generic returned response.
      */
     public ResponseConfirm doCreate (RequestIndication requestIndication) {
-
         // containersReference:             (createReq NP) (response M)
         // groupsReference:                 (createReq NP) (response M)
         // applicationsReference:           (createReq NP) (response M)
@@ -87,13 +89,17 @@ public class SclController extends Controller {
 
         // CheckResourceParentExistence
         if (scls == null) {
+        	
             return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_FOUND,requestIndication.getTargetID()+" does not exist")) ;
         }
+        
         // Check AccessRight
         errorResponse = checkAccessRight(scls.getAccessRightID(), requestIndication.getRequestingEntity(), Constants.AR_CREATE);
         if (errorResponse != null) {
+        	
             return errorResponse;
         }
+        
         // Check Resource Representation
         if (requestIndication.getRepresentation() == null) {
             return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_BAD_REQUEST,"Resource Representation is EMPTY")) ;
@@ -101,16 +107,20 @@ public class SclController extends Controller {
         // Check XML Validity
         errorResponse = checkMessageSyntax(requestIndication.getRepresentation(),"scl.xsd");
         if (errorResponse != null) {
+        	
             return errorResponse;
         }
+        
         // Checks on attributes
         Scl scl = (Scl) XmlMapper.getInstance().xmlToObject(requestIndication.getRepresentation());
         // SclId is Mandatory
         if (scl.getSclId() == null) {
+        	
             return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_BAD_REQUEST," sclId is Mandatory")) ;
         }
+
         // Check the Id uniqueness
-        if (DAOFactory.getSclDAO().find(requestIndication.getTargetID()+"/"+scl.getSclId()) != null) {
+        if (DAOFactory.getSclDAO().find(requestIndication.getTargetID()+"/"+scl.getSclId()) != null) {       
             return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_CONFLICT,"SclId Conflit")) ;
         }
         // Check ExpirationTime
@@ -222,7 +232,6 @@ public class SclController extends Controller {
 
         // Store scl
         DAOFactory.getSclDAO().create(scl);
-
         // Response
         return new ResponseConfirm(StatusCode.STATUS_CREATED, scl);
     }
@@ -260,8 +269,10 @@ public class SclController extends Controller {
         // integrityValResult:              (response O)
         // aPocHandling:                    (response O)
 
-        ResponseConfirm errorResponse = new ResponseConfirm();
+        
+    	ResponseConfirm errorResponse = new ResponseConfirm();
         Scl scl = DAOFactory.getSclDAO().find(requestIndication.getTargetID());
+        
 
         // Check resource existence
         if (scl == null) {
@@ -494,5 +505,4 @@ public class SclController extends Controller {
         // Response
         return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_NOT_IMPLEMENTED,requestIndication.getMethod()+" Method is not implemented")) ;
     }
-
 }

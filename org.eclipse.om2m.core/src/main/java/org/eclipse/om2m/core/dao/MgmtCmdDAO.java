@@ -22,6 +22,7 @@ package org.eclipse.om2m.core.dao;
 import java.util.Date;
 
 import org.eclipse.om2m.commons.resource.ExecInstances;
+import org.eclipse.om2m.commons.resource.M2MPocs;
 import org.eclipse.om2m.commons.resource.MgmtCmd;
 import org.eclipse.om2m.commons.resource.MgmtObjs;
 import org.eclipse.om2m.commons.resource.Subscriptions;
@@ -58,8 +59,16 @@ public class MgmtCmdDAO extends DAO<MgmtCmd> {
         execInstances.setCreationTime(resource.getCreationTime());
         execInstances.setLastModifiedTime(resource.getLastModifiedTime());
         DAOFactory.getExecInstancesDAO().create(execInstances);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(MgmtObjs.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<MgmtObjs> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        MgmtObjs mgmtObjs = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(mgmtObjs);
         // Validate the current transaction
@@ -102,8 +111,16 @@ public class MgmtCmdDAO extends DAO<MgmtCmd> {
     public void update(MgmtCmd resource) {
         // Store the updated resource
         DB.store(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(MgmtObjs.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<MgmtObjs> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        MgmtObjs mgmtObjs = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(mgmtObjs);
         // Validate the current transaction
@@ -134,8 +151,16 @@ public class MgmtCmdDAO extends DAO<MgmtCmd> {
         // Delete ExecInstances
         DAOFactory.getExecInstancesDAO().lazyDelete(DAOFactory.getExecInstancesDAO().lazyFind(resource.getExecInstancesReference()));
 
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(MgmtObjs.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<MgmtObjs> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        MgmtObjs mgmtObjs = DAOFactory.getMgmtObjsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        MgmtObjs mgmtObjs = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         mgmtObjs.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(mgmtObjs);
     }

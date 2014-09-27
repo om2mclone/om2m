@@ -21,6 +21,7 @@ package org.eclipse.om2m.core.dao;
 
 import java.util.Date;
 
+import org.eclipse.om2m.commons.resource.MgmtObjs;
 import org.eclipse.om2m.commons.resource.NotificationChannel;
 import org.eclipse.om2m.commons.resource.NotificationChannels;
 import org.eclipse.om2m.commons.utils.DateConverter;
@@ -46,8 +47,16 @@ public class NotificationChannelDAO extends DAO<NotificationChannel> {
     public void create(NotificationChannel resource) {
         // Store the created resource
         DB.store(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(NotificationChannels.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<NotificationChannels> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        NotificationChannels notificationChannels =DAOFactory.getNotificationChannelsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        NotificationChannels notificationChannels = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         notificationChannels.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(notificationChannels);
         // Validate the current transaction
@@ -90,10 +99,18 @@ public class NotificationChannelDAO extends DAO<NotificationChannel> {
     public void update(NotificationChannel resource) {
         // Store the updated resource
         DB.store(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(NotificationChannels.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<NotificationChannels> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        NotificationChannels notificationChannelsFind =DAOFactory.getNotificationChannelsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
-        notificationChannelsFind.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
-        DB.store(notificationChannelsFind);
+        NotificationChannels notificationChannels = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
+        notificationChannels.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
+        DB.store(notificationChannels);
         // Validate the current transaction
         commit();
     }
@@ -116,8 +133,16 @@ public class NotificationChannelDAO extends DAO<NotificationChannel> {
     public void lazyDelete(NotificationChannel resource) {
         // Delete the resource
         DB.delete(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(NotificationChannels.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<NotificationChannels> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        NotificationChannels notificationChannels =DAOFactory.getNotificationChannelsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        NotificationChannels notificationChannels = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         notificationChannels.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(notificationChannels);
     }

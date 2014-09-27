@@ -24,6 +24,7 @@ import org.eclipse.om2m.commons.resource.ExecInstances;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 import org.eclipse.om2m.commons.resource.Subscriptions;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -62,8 +63,10 @@ public class ExecInstancesDAO extends DAO<ExecInstances> {
         ExecInstances execInstances = lazyFind(uri);
 
         if(execInstances != null){
+        	ObjectContainer session = DB.ext().openSession();
+
             //Find ExecInstances sub-resources and add their references
-            Query query = DB.query();
+            Query query = session.query();
             query.constrain(ExecInstances.class);
             query.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<ExecInstances> result = query.execute();
@@ -85,8 +88,10 @@ public class ExecInstancesDAO extends DAO<ExecInstances> {
      * @return The requested {@link ExecInstances} collection resource otherwise null
      */
     public ExecInstances lazyFind(String uri) {
+    	ObjectContainer session = DB.ext().openSession();
+
         // Create the query based on the uri constraint
-        Query query=DB.query();
+        Query query=session.query();
         query.constrain(ExecInstances.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

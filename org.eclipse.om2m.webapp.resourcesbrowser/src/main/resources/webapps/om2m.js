@@ -37,7 +37,7 @@ var password;
 var parser=new DOMParser();
 
 function make_base_auth(user, password) {
-  var tok = user + '/' + password;
+  var tok = user + ':' + password;
   var hash = btoa(tok);
   return "Basic " + hash;
 }
@@ -211,6 +211,11 @@ function display(content){
     var obix= atob(content.textContent);
     var rep=parser.parseFromString(obix,'text/xml');
 
+
+    if(rep.firstChild.tagName!="obj"){
+        $('#contentTable').append('<tr><td>'+$(rep.firstChild).attr('name')+'</td><td>'+$(rep.firstChild).attr('val')+'</td></tr>');
+    }
+
     var childrens =$(rep.firstChild).children();
 
     for(var t=0; t<childrens.length; t++){
@@ -232,7 +237,8 @@ function display(content){
                      }
                  }
              }
-         }else if(childrens[t].tagName!="obj"){
+         }
+         else if(childrens[t].tagName!="obj"){
              $('#contentTable').append('<tr><td>'+$(childrens[t]).attr('name')+'</td><td>'+$(childrens[t]).attr('val')+'</td></tr>');
          }
     }
@@ -278,10 +284,15 @@ function retrieve(url){
       $('#response').append('<h4>Successful GET Request:</h4>');
       $('#response').append('<table class="bordered" id="contentTable1" ><thead><tr><th >Name</th><th >Value</th></thead></table>');
 
-      $(response).find('obj').children().each(function() {
-        $('#contentTable1').append('<tr"><td>'+$(this).attr('name')+'</td><td>'+$(this).attr('val')+'</td></tr>');
-      });
-
+      if(response.firstChild.localName=="obj"){
+	      $(response).find('obj').children().each(function() {
+	        $('#contentTable1').append('<tr"><td>'+$(this).attr('name')+'</td><td>'+$(this).attr('val')+'</td></tr>');
+	      });
+      }else{
+    	  $(response).children().each(function() {
+  	        $('#contentTable1').append('<tr"><td>'+$(this).attr('name')+'</td><td>'+$(this).attr('val')+'</td></tr>');
+  	      });
+      }
     }
   });
 }

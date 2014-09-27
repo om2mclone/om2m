@@ -23,6 +23,7 @@ import org.eclipse.om2m.commons.resource.M2MPoc;
 import org.eclipse.om2m.commons.resource.M2MPocs;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -55,9 +56,11 @@ public class M2MPocsDAO extends DAO<M2MPocs> {
         M2MPocs m2mPocs = lazyFind(uri);
 
         if (m2mPocs != null){
+        	ObjectContainer session = DB.ext().openSession();
+
             //Find M2MPoc sub-resources and add their references
             m2mPocs.getM2MPocCollection().getNamedReference().clear();
-            Query query = DB.query();
+            Query query = session.query();
             query.constrain(M2MPoc.class);
             query.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<M2MPoc> result = query.execute();
@@ -78,8 +81,10 @@ public class M2MPocsDAO extends DAO<M2MPocs> {
      * @return The requested {@link M2MPocs} collection resource otherwise null
      */
     public M2MPocs lazyFind(String uri) {
+    	ObjectContainer session = DB.ext().openSession();
+
         // Create the query based on the uri constraint
-        Query query = DB.query();
+        Query query = session.query();
         query.constrain(M2MPocs.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

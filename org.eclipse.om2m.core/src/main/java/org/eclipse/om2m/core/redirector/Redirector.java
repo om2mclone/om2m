@@ -21,6 +21,8 @@ package org.eclipse.om2m.core.redirector;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.eclipse.om2m.commons.resource.ErrorInfo;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 import org.eclipse.om2m.commons.resource.Scl;
@@ -28,9 +30,12 @@ import org.eclipse.om2m.commons.resource.Scls;
 import org.eclipse.om2m.commons.resource.StatusCode;
 import org.eclipse.om2m.commons.rest.RequestIndication;
 import org.eclipse.om2m.commons.rest.ResponseConfirm;
+import org.eclipse.om2m.core.Activator;
 import org.eclipse.om2m.core.comm.RestClient;
 import org.eclipse.om2m.core.constants.Constants;
 import org.eclipse.om2m.core.dao.DAOFactory;
+
+import com.db4o.internal.logging.Logger;
 
 /**
  * Re-target the REST request to the Distant SCL registered in the {@link Scls} Collection.
@@ -62,8 +67,8 @@ public class Redirector {
         String sclId = Constants.SCL_ID+"/scls/"+requestIndication.getTargetID().split("/")[0];
         Scl scl = DAOFactory.getSclDAO().find(sclId);
         String base = scl.getPocs().getReference().get(0)+"/";
-        requestIndication.setBase(base);
-
+        
+        requestIndication.setBase(base);  
         // Retarget the request
         return new RestClient().sendRequest(requestIndication);
     }

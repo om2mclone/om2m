@@ -47,11 +47,18 @@ public class GroupAnncDAO extends DAO<GroupAnnc> {
         // Store the created resource
         DB.store(resource);
 
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Groups.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<Groups> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Groups groups = DAOFactory.getGroupsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        Groups groups = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(groups);
-        // Validate the current transaction
         commit();
     }
 
@@ -91,11 +98,18 @@ public class GroupAnncDAO extends DAO<GroupAnnc> {
     public void update(GroupAnnc resource) {
         // Store the updated resource
         DB.store(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Groups.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<Groups> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Groups groups = DAOFactory.getGroupsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        Groups groups = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(groups);
-        // Validate the current transaction
         commit();
     }
 
@@ -117,8 +131,16 @@ public class GroupAnncDAO extends DAO<GroupAnnc> {
     public void lazyDelete(GroupAnnc resource) {
         // Delete the resource
         DB.delete(resource);
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Groups.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getId())[0]);
+        // Store all the founded resources
+        ObjectSet<Groups> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Groups groups = DAOFactory.getGroupsDAO().lazyFind(resource.getUri().split("/"+resource.getId())[0]);
+        Groups groups = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         groups.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(groups);
     }

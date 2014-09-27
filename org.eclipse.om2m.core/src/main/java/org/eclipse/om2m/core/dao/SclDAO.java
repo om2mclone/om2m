@@ -116,8 +116,16 @@ public class SclDAO extends DAO<Scl> {
         m2mPocs.setLastModifiedTime(resource.getLastModifiedTime());
         DAOFactory.getM2MPocsDAO().create(m2mPocs);
 
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Scls.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getSclId())[0]);
+        // Store all the founded resources
+        ObjectSet<Scls> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Scls scls = DAOFactory.getSclsDAO().lazyFind(resource.getUri().split("/"+resource.getSclId())[0]);
+        Scls scls = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         scls.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(scls);
 
@@ -161,8 +169,16 @@ public class SclDAO extends DAO<Scl> {
     public void update(Scl resource) {
         // Store the updated resource
         DB.store(resource);
+        // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Scls.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getSclId())[0]);
+        // Store all the founded resources
+        ObjectSet<Scls> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Scls scls = DAOFactory.getSclsDAO().lazyFind(resource.getUri().split("/"+resource.getSclId())[0]);
+        Scls scls = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         scls.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(scls);
         // Validate the current transaction
@@ -202,8 +218,16 @@ public class SclDAO extends DAO<Scl> {
         // Delete the resource
         DB.delete(resource);
 
+     // Create the query based on the uri constraint
+        Query query = DB.query();
+        query.constrain(Scls.class);
+        query.descend("uri").constrain(resource.getUri().split("/"+resource.getSclId())[0]);
+        // Store all the founded resources
+        ObjectSet<Scls> result = query.execute();
+        
         // Update the lastModifiedTime attribute of the parent
-        Scls scls = DAOFactory.getSclsDAO().lazyFind(resource.getUri().split("/"+resource.getSclId())[0]);
+        Scls scls = result.get(0);
+        // Update the lastModifiedTime attribute of the parent
         scls.setLastModifiedTime(DateConverter.toXMLGregorianCalendar(new Date()).toString());
         DB.store(scls);
     }

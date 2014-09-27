@@ -43,6 +43,7 @@ public class ContentInstancesDAO extends DAO<ContentInstances> {
      * @param resource - The {@link ContentInstances} collection resource to create
      */
     public void create(ContentInstances resource) {
+    	
         //Set subscriptions reference
         resource.setSubscriptionsReference(resource.getUri()+"/subscriptions");
         // Store the created resource
@@ -75,6 +76,8 @@ public class ContentInstancesDAO extends DAO<ContentInstances> {
             }
         }
         return contentInstances;
+
+        
     }
 
     /**
@@ -83,6 +86,7 @@ public class ContentInstancesDAO extends DAO<ContentInstances> {
      * @return The requested {@link ContentInstances} collection resource otherwise null
      */
     public ContentInstances lazyFind(String uri) {
+
     	ObjectContainer session = DB.ext().openSession();
 
         // Create the query based on the uri constraint
@@ -95,8 +99,10 @@ public class ContentInstancesDAO extends DAO<ContentInstances> {
         if (!result.isEmpty()) {
             return result.get(0);
         }
+
         // Return null if the resource is not found
         return null;
+        
     }
 
     /**

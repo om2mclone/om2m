@@ -25,6 +25,7 @@ import org.eclipse.om2m.commons.resource.AccessRights;
 import org.eclipse.om2m.commons.resource.ReferenceToNamedResource;
 import org.eclipse.om2m.commons.resource.Subscriptions;
 
+import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
@@ -64,8 +65,10 @@ public class AccessRightsDAO extends DAO<AccessRights> {
         AccessRights accessRights = lazyFind(uri);
 
         if(accessRights != null){
+        	ObjectContainer session = DB.ext().openSession();
+
             // Find AccessRight sub-resources and add their references
-            Query queryAccessRight = DB.query();
+            Query queryAccessRight = session.query();
             queryAccessRight.constrain(AccessRight.class);
             queryAccessRight.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<AccessRight> resultAccessRight = queryAccessRight.execute();
@@ -80,7 +83,7 @@ public class AccessRightsDAO extends DAO<AccessRights> {
 
             // Find AccessRightAnnc sub-resources Resources and add their references
             accessRights.getAccessRightAnncCollection().getNamedReference().clear();
-            Query queryAccessRightAnnc = DB.query();
+            Query queryAccessRightAnnc = session.query();
             queryAccessRightAnnc.constrain(AccessRightAnnc.class);
             queryAccessRightAnnc.descend("uri").constrain(uri).startsWith(true);
             ObjectSet<AccessRightAnnc> resultAccessRightAnnc = queryAccessRightAnnc.execute();
@@ -102,7 +105,8 @@ public class AccessRightsDAO extends DAO<AccessRights> {
      */
     public AccessRights lazyFind(String uri) {
         // Create the query based on the uri constraint
-        Query query = DB.query();
+    	ObjectContainer session = DB.ext().openSession();
+        Query query = session.query();
         query.constrain(AccessRights.class);
         query.descend("uri").constrain(uri);
         // Store all the founded resources

@@ -19,6 +19,8 @@
  ******************************************************************************/
 package org.eclipse.om2m.core.router;
 
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +32,7 @@ import org.eclipse.om2m.commons.resource.StatusCode;
 import org.eclipse.om2m.commons.rest.RequestIndication;
 import org.eclipse.om2m.commons.rest.ResponseConfirm;
 import org.eclipse.om2m.commons.utils.XmlMapper;
+
 import org.eclipse.om2m.core.constants.Constants;
 import org.eclipse.om2m.core.controller.AccessRightAnncController;
 import org.eclipse.om2m.core.controller.AccessRightController;
@@ -52,7 +55,7 @@ import org.eclipse.om2m.core.controller.ExecInstancesController;
 import org.eclipse.om2m.core.controller.GroupAnncController;
 import org.eclipse.om2m.core.controller.GroupController;
 import org.eclipse.om2m.core.controller.GroupsController;
-import org.eclipse.om2m.core.controller.InterworkingProxyController;
+
 import org.eclipse.om2m.core.controller.LocationContainerAnncController;
 import org.eclipse.om2m.core.controller.LocationContainerController;
 import org.eclipse.om2m.core.controller.M2MPocController;
@@ -69,7 +72,11 @@ import org.eclipse.om2m.core.controller.SclController;
 import org.eclipse.om2m.core.controller.SclsController;
 import org.eclipse.om2m.core.controller.SubscriptionController;
 import org.eclipse.om2m.core.controller.SubscriptionsController;
+//<<<<<<< HEAD
+import org.eclipse.om2m.core.controller.APocController;
 import org.eclipse.om2m.core.notifier.Notifier;
+//=======
+//>>>>>>> refs/remotes/origin/master
 import org.eclipse.om2m.core.redirector.Redirector;
 import org.eclipse.om2m.core.service.SclService;
 
@@ -85,6 +92,7 @@ import org.eclipse.om2m.core.service.SclService;
 public class Router implements SclService {
     /** Logger */
     private static Log LOGGER = LogFactory.getLog(Router.class);
+    public static ReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     /** Resource id pattern. */
     private static String idPattern="(?!(sclBase|scls|scl|applications|application|applicationAnnc|containers|container|content|subscriptions|subscription|"
             + "groups|group|accessRights|accessRight|discovery|mgmtObjs|mgmtObj|mgmtCmd|attahchedDevices|attachedDevice|notificationChannels|"
@@ -101,18 +109,23 @@ public class Router implements SclService {
 
     /** Scls resource uri pattern. */
     private static Pattern  sclsPattern= Pattern.compile(sclBasePattern+"/+scls/*");
+    
+    //private static Pattern ipuPattern2= Pattern.compile("("+Constants.SCL_ID+"/*"+"|"+Constants.SCL_ID+"/*"+"/+scls/*"+"/+"+idPattern+"/*"+")"+"/+applications/*"+"/+"+idPattern+"(?<!Annc)/*"+"/"+idPattern+"/*.*");
 
     /** Scl resource uri pattern. */
     private static Pattern sclPattern= Pattern.compile(sclsPattern+"/+"+idPattern+"/*");
 
     /** Applications resource uri pattern. */
-    private static Pattern applicationsPattern= Pattern.compile("("+sclBasePattern+"|"+sclPattern+")"+"/+applications/*");
+    public static final Pattern applicationsPattern= Pattern.compile("("+sclBasePattern+"|"+sclPattern+")"+"/+applications/*");
 
     /** Application resource uri pattern. */
     private static Pattern applicationPattern= Pattern.compile(applicationsPattern+"/+"+idPattern+"(?<!Annc)/*");
 
     /** Interworking proxy unit uri pattern. */
     private static Pattern ipuPattern= Pattern.compile(applicationPattern+"/"+idPattern+"/*.*");
+    
+    /** Coap Comm uri pattern. */
+    private static Pattern coapCommPattern= Pattern.compile("coap/"+applicationPattern+"/"+idPattern+"/*.*");
 
     /** ApplicationAnnc resource uri pattern. */
     private static Pattern applicationAnncPattern= Pattern.compile(applicationsPattern+"/+"+idAnncPattern+"Annc/*");
@@ -240,60 +253,68 @@ public class Router implements SclService {
      * @param requestIndication - The generic request to handle
      * @return The generic returned response
      */
+
     public ResponseConfirm doRequest(RequestIndication requestIndication) {
-        LOGGER.info(requestIndication);
+         LOGGER.info(requestIndication);
+         ResponseConfirm  responseConfirm = new ResponseConfirm();
 
-        // Check requesting entity not null.
-        if(requestIndication.getRequestingEntity()==null){
-            return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_AUTHORIZATION_NOT_ADDED,"Requesting Entity should not be null"));
-        }
+         // Check requesting entity not null.
+         if(requestIndication.getRequestingEntity()==null){
+             return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_AUTHORIZATION_NOT_ADDED,"Requesting Entity should not be null"));
+         }
 
-        // Remove the first "/" from the request uri if exist.
-        if(requestIndication.getTargetID().startsWith("/")){
-            requestIndication.setTargetID(requestIndication.getTargetID().substring(1));
-        }
-        // Remove the last "/" from the request uri if exist.
-        if(requestIndication.getTargetID().endsWith("/")){
-            requestIndication.setTargetID(requestIndication.getTargetID().substring(0,requestIndication.getTargetID().length()-1));
-        }
-        // Retagreting case
-        if(match(retargetingPattern,requestIndication.getTargetID())){
-            return new Redirector().retarget(requestIndication);
-        }
-        // Controller case
-        // Determine the appropriate resource controller
-        Controller controller = getResourceController(requestIndication.getTargetID(),requestIndication.getMethod(),requestIndication.getRepresentation());
-        ResponseConfirm  responseConfirm = new ResponseConfirm();
+         // Remove the first "/" from the request uri if exist.
+         if(requestIndication.getTargetID().startsWith("/")){
+ requestIndication.setTargetID(requestIndication.getTargetID().substring(1));
+         }
+         // Remove the last "/" from the request uri if exist.
+         if(requestIndication.getTargetID().endsWith("/")){
+ requestIndication.setTargetID(requestIndication.getTargetID().substring(0,requestIndication.getTargetID().length()-1));
+         }
+         readWriteLock.readLock().lock();
 
-        // Select the resource controller method and invoke it.
+         // Retagreting case
+ if(match(retargetingPattern,requestIndication.getTargetID())){
+             responseConfirm  = new Redirector().retarget(requestIndication);
+         }else{
+             // Determine the appropriate resource controller
+             Controller controller = getResourceController(requestIndication.getTargetID(),requestIndication.getMethod(),requestIndication.getRepresentation());
 
-        if(controller!=null){
-            LOGGER.info("ResourceController ["+controller.getClass().getSimpleName()+"]");
-            try{
-                switch(requestIndication.getMethod()){
-                case Constants.METHOD_RETREIVE: responseConfirm = controller.doRetrieve(requestIndication);
-                break;
-                case Constants.METHOD_CREATE: responseConfirm = controller.doCreate(requestIndication);
-                break;
-                case Constants.METHOD_UPDATE:  responseConfirm = controller.doUpdate(requestIndication);
-                break;
-                case Constants.METHOD_DELETE:  responseConfirm = controller.doDelete(requestIndication);
-                break;
-                case Constants.METHOD_EXECUTE: responseConfirm = controller.doExecute(requestIndication);
-                break;
-                default: responseConfirm = new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_BAD_REQUEST,"Bad Method"));
-                break;
-                }
-            }catch(Exception e){
-                LOGGER.error("Controller Internal Error",e);
-                return new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_INTERNAL_SERVER_ERROR,"Controller Internal Error"));
-            }
-        }else{
-            responseConfirm = new  ResponseConfirm(new ErrorInfo(StatusCode.STATUS_BAD_REQUEST,"Bad TargetID"));
-        }
-        LOGGER.info(responseConfirm);
-        return responseConfirm;
-    }
+             // Select the resource controller method and invoke it.
+             if(controller!=null){
+
+                     LOGGER.info("ResourceController ["+controller.getClass().getSimpleName()+"]");
+                     try{
+
+                             switch(requestIndication.getMethod()){
+                             case Constants.METHOD_RETREIVE: responseConfirm = controller.doRetrieve(requestIndication);
+                             break;
+                             case Constants.METHOD_CREATE: responseConfirm = controller.doCreate(requestIndication);
+                             break;
+                             case Constants.METHOD_UPDATE: responseConfirm = controller.doUpdate(requestIndication);
+                             break;
+                             case Constants.METHOD_DELETE: responseConfirm = controller.doDelete(requestIndication);
+                             break;
+                             case Constants.METHOD_EXECUTE: responseConfirm = controller.doExecute(requestIndication);
+                             break;
+                             default: responseConfirm = new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_BAD_REQUEST,"Bad Method"));
+                             break;
+                         }
+                     }catch(Exception e){
+                         LOGGER.error("Controller Internal Error",e);
+                         responseConfirm =  new ResponseConfirm(new ErrorInfo(StatusCode.STATUS_INTERNAL_SERVER_ERROR,"Controller Internal Error"));
+                     }
+             }else{
+                 responseConfirm = new  ResponseConfirm(new ErrorInfo(StatusCode.STATUS_BAD_REQUEST,"Bad TargetID"));
+             }
+         }
+         readWriteLock.readLock().unlock();
+
+         LOGGER.info(responseConfirm);
+         return responseConfirm;
+     }
+
+
 
     /**
      * Finds requried resource controller based on uri patterns.
@@ -327,7 +348,8 @@ public class Router implements SclService {
             return new ApplicationAnncController();
         }
         if(match(ipuPattern,uri)){
-            return new InterworkingProxyController();
+            // will forward to a RestClientController or IPUController;
+        	return new APocController();
         }
         if(match(containersPattern,uri) && !method.equals(Constants.METHOD_CREATE)){
             return new ContainersController();
@@ -432,7 +454,7 @@ public class Router implements SclService {
      * @param uri - resource uri
      * @return true if matched, otherwise false.
      */
-    public final boolean match(Pattern pattern, String uri) {
+    public static boolean match(Pattern pattern, String uri) {
         // Match uri with pattern
         Matcher m = pattern.matcher(uri);
         if (!m.matches()){

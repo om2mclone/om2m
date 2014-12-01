@@ -229,6 +229,7 @@
     <module>org.eclipse.om2m.webapp.resourcesbrowser</module>
     <module>org.eclipse.om2m.site.nscl</module>
     <module>org.eclipse.om2m.site.gscl</module>
+    <module>org.eclipse.om2m.test</module>
   </modules>
 
 </project>
